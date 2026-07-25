@@ -29,3 +29,15 @@ CREATE TABLE phong (
                        mo_ta_phong TEXT,
                        gia_phong DECIMAL(15,2)
 );
+CREATE TABLE dat_phong (
+                           dat_phong_id INT AUTO_INCREMENT PRIMARY KEY,
+
+                           khach_hang_id INT,
+                           so_phong VARCHAR(20),
+                           nhan_vien_id INT,
+
+                           ngay_dat DATETIME,
+                           ngay_nhan_phong DATETIME,
+                           ngay_tra_phong DATETIME,
+                           so_ngay_o INT
+);
