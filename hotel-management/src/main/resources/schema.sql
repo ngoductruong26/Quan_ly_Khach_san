@@ -41,3 +41,15 @@ CREATE TABLE dat_phong (
                            ngay_tra_phong DATETIME,
                            so_ngay_o INT
 );
+CREATE TABLE thanh_toan (
+                            thanh_toan_id INT AUTO_INCREMENT PRIMARY KEY,
+
+                            dat_phong_id INT,
+
+                            loai_thanh_toan VARCHAR(50),
+                            ngay_thanh_toan DATETIME,
+                            so_tien_thanh_toan DECIMAL(15,2),
+
+                            so_the_tin_dung VARCHAR(20),
+                            ngay_het_han_the DATE
+);
