@@ -53,3 +53,15 @@ CREATE TABLE thanh_toan (
                             so_the_tin_dung VARCHAR(20),
                             ngay_het_han_the DATE
 );
+ALTER TABLE dat_phong
+    ADD CONSTRAINT fk_dp_khach_hang
+        FOREIGN KEY (khach_hang_id)
+            REFERENCES khach_hang(khach_hang_id);
+ALTER TABLE dat_phong
+    ADD CONSTRAINT fk_dp_phong
+        FOREIGN KEY (so_phong)
+            REFERENCES phong(so_phong);
+ALTER TABLE dat_phong
+    ADD CONSTRAINT fk_dp_nhan_vien
+        FOREIGN KEY (nhan_vien_id)
+            REFERENCES nhan_vien(nhan_vien_id);
