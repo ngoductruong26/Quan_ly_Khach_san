@@ -65,3 +65,32 @@ ALTER TABLE dat_phong
     ADD CONSTRAINT fk_dp_nhan_vien
         FOREIGN KEY (nhan_vien_id)
             REFERENCES nhan_vien(nhan_vien_id);
+ALTER TABLE thanh_toan
+    ADD CONSTRAINT fk_tt_dat_phong
+        FOREIGN KEY (dat_phong_id)
+            REFERENCES dat_phong(dat_phong_id);
+CREATE TABLE khach_hang_dich_vu (
+                                     khach_hang_id INT,
+                                    dich_vu_id INT,
+
+                                    PRIMARY KEY(khach_hang_id,dich_vu_id),
+
+                                    FOREIGN KEY(khach_hang_id)
+                                        REFERENCES khach_hang(khach_hang_id),
+
+                                    FOREIGN KEY(dich_vu_id)
+                                        REFERENCES dich_vu(dich_vu_id)
+);
+CREATE TABLE nhan_vien_dich_vu (
+
+                                   nhan_vien_id INT,
+                                   dich_vu_id INT,
+
+                                   PRIMARY KEY(nhan_vien_id,dich_vu_id),
+
+                                   FOREIGN KEY(nhan_vien_id)
+                                       REFERENCES nhan_vien(nhan_vien_id),
+
+                                   FOREIGN KEY(dich_vu_id)
+                                       REFERENCES dich_vu(dich_vu_id)
+);
