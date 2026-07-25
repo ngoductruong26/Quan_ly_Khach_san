@@ -23,4 +23,9 @@ CREATE TABLE nhan_vien (
                            ten_dang_nhap VARCHAR(50) UNIQUE,
                            mat_khau VARCHAR(255)
 );
-
+CREATE TABLE phong (
+                       so_phong VARCHAR(20) PRIMARY KEY,
+                       loai_phong VARCHAR(50),
+                       mo_ta_phong TEXT,
+                       gia_phong DECIMAL(15,2)
+);
