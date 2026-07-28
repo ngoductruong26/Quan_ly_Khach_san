@@ -1,96 +1,181 @@
 CREATE DATABASE IF NOT EXISTS quan_ly_khach_san;
-USE quan_ly_khach_san
-CREATE TABLE dich_vu (
-                         dich_vu_id INT AUTO_INCREMENT PRIMARY KEY,
-                         loai_dich_vu VARCHAR(100) NOT NULL,
-                         gia_dich_vu DECIMAL(15,2) NOT NULL
-);
-CREATE TABLE khach_hang (
-                            khach_hang_id INT AUTO_INCREMENT PRIMARY KEY,
-                            ten_khach_hang VARCHAR(50) NOT NULL,
-                            ho_khach_hang VARCHAR(50) NOT NULL,
-                            dia_chi TEXT,
-                            ngay_sinh DATE,
-                            email VARCHAR(100)
-);
-CREATE TABLE nhan_vien (
-                           nhan_vien_id INT AUTO_INCREMENT PRIMARY KEY,
-                           ten_nhan_vien VARCHAR(50) NOT NULL,
-                           ho_nhan_vien VARCHAR(50) NOT NULL,
-                           dia_chi TEXT,
-                           phong_ban VARCHAR(50),
-                           chuc_vu VARCHAR(50),
-                           ten_dang_nhap VARCHAR(50) UNIQUE,
-                           mat_khau VARCHAR(255)
-);
-CREATE TABLE phong (
-                       so_phong VARCHAR(20) PRIMARY KEY,
-                       loai_phong VARCHAR(50),
-                       mo_ta_phong TEXT,
-                       gia_phong DECIMAL(15,2)
-);
-CREATE TABLE dat_phong (
-                           dat_phong_id INT AUTO_INCREMENT PRIMARY KEY,
 
-                           khach_hang_id INT,
-                           so_phong VARCHAR(20),
-                           nhan_vien_id INT,
+USE quan_ly_khach_san;
 
-                           ngay_dat DATETIME,
-                           ngay_nhan_phong DATETIME,
-                           ngay_tra_phong DATETIME,
-                           so_ngay_o INT
-);
-CREATE TABLE thanh_toan (
-                            thanh_toan_id INT AUTO_INCREMENT PRIMARY KEY,
 
-                            dat_phong_id INT,
+-- =========================
+-- LOẠI PHÒNG
+-- =========================
 
-                            loai_thanh_toan VARCHAR(50),
-                            ngay_thanh_toan DATETIME,
-                            so_tien_thanh_toan DECIMAL(15,2),
+CREATE TABLE IF NOT EXISTS room_types (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    description TEXT,
+    price DECIMAL(15,2)
+    );
 
-                            so_the_tin_dung VARCHAR(20),
-                            ngay_het_han_the DATE
-);
-ALTER TABLE dat_phong
-    ADD CONSTRAINT fk_dp_khach_hang
-        FOREIGN KEY (khach_hang_id)
-            REFERENCES khach_hang(khach_hang_id);
-ALTER TABLE dat_phong
-    ADD CONSTRAINT fk_dp_phong
-        FOREIGN KEY (so_phong)
-            REFERENCES phong(so_phong);
-ALTER TABLE dat_phong
-    ADD CONSTRAINT fk_dp_nhan_vien
-        FOREIGN KEY (nhan_vien_id)
-            REFERENCES nhan_vien(nhan_vien_id);
-ALTER TABLE thanh_toan
-    ADD CONSTRAINT fk_tt_dat_phong
-        FOREIGN KEY (dat_phong_id)
-            REFERENCES dat_phong(dat_phong_id);
-CREATE TABLE khach_hang_dich_vu (
-                                     khach_hang_id INT,
-                                    dich_vu_id INT,
 
-                                    PRIMARY KEY(khach_hang_id,dich_vu_id),
 
-                                    FOREIGN KEY(khach_hang_id)
-                                        REFERENCES khach_hang(khach_hang_id),
+-- =========================
+-- PHÒNG
+-- =========================
 
-                                    FOREIGN KEY(dich_vu_id)
-                                        REFERENCES dich_vu(dich_vu_id)
-);
-CREATE TABLE nhan_vien_dich_vu (
+CREATE TABLE IF NOT EXISTS rooms (
 
-                                   nhan_vien_id INT,
-                                   dich_vu_id INT,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-                                   PRIMARY KEY(nhan_vien_id,dich_vu_id),
+    room_number VARCHAR(20) NOT NULL UNIQUE,
 
-                                   FOREIGN KEY(nhan_vien_id)
-                                       REFERENCES nhan_vien(nhan_vien_id),
+    floor VARCHAR(20),
 
-                                   FOREIGN KEY(dich_vu_id)
-                                       REFERENCES dich_vu(dich_vu_id)
-);
+    status VARCHAR(50),
+
+    room_type_id BIGINT,
+
+    CONSTRAINT fk_rooms_room_type
+    FOREIGN KEY(room_type_id)
+    REFERENCES room_types(id)
+
+    );
+
+
+
+-- =========================
+-- KHÁCH HÀNG
+-- =========================
+
+CREATE TABLE IF NOT EXISTS customers (
+
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    first_name VARCHAR(50),
+
+    last_name VARCHAR(50),
+
+    address TEXT,
+
+    birth_date DATE,
+
+    email VARCHAR(100)
+
+    );
+
+
+
+-- =========================
+-- NHÂN VIÊN
+-- =========================
+
+CREATE TABLE IF NOT EXISTS employees (
+
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+     first_name VARCHAR(50),
+
+    last_name VARCHAR(50),
+
+    address TEXT,
+
+    department VARCHAR(50),
+
+    position VARCHAR(50),
+
+    username VARCHAR(50) UNIQUE,
+
+    password VARCHAR(255)
+
+    );
+
+
+
+-- =========================
+-- ĐẶT PHÒNG
+-- =========================
+
+CREATE TABLE IF NOT EXISTS bookings (
+
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    customer_id BIGINT,
+    room_id BIGINT,
+    employee_id BIGINT,
+    booking_date DATETIME,
+    check_in DATETIME,
+    check_out DATETIME,
+    total_days INT,
+
+
+     CONSTRAINT fk_booking_customer
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(id),
+    CONSTRAINT fk_booking_room
+    FOREIGN KEY(room_id)
+    REFERENCES rooms(id),
+
+    CONSTRAINT fk_booking_employee
+    FOREIGN KEY(employee_id)
+    REFERENCES employees(id)
+
+    );
+
+
+
+-- =========================
+-- DỊCH VỤ
+-- =========================
+
+CREATE TABLE IF NOT EXISTS services (
+
+   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+     service_name VARCHAR(100),
+    price DECIMAL(15,2)
+
+    );
+
+
+
+-- =========================
+-- THANH TOÁN
+-- =========================
+
+CREATE TABLE IF NOT EXISTS payments (
+     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    booking_id BIGINT,
+    payment_type VARCHAR(50),
+    payment_date DATETIME,
+    amount DECIMAL(15,2),
+
+
+    CONSTRAINT fk_payment_booking
+    FOREIGN KEY(booking_id)
+    REFERENCES bookings(id)
+
+    );
+
+
+
+-- =========================
+-- DATA SAMPLE
+-- =========================
+
+
+INSERT INTO room_types(name, description, price)
+VALUES
+    ('Phòng đơn','Phòng tiêu chuẩn',300000);
+
+
+
+INSERT INTO rooms(room_number,floor,status,room_type_id)
+VALUES
+    ('101','1','AVAILABLE',1);
+
+
+
+INSERT INTO customers(first_name,last_name,email)
+VALUES
+    ('Nguyen','Van A','a@gmail.com');
+
+
+
+INSERT INTO employees(first_name,last_name,username,password)
+VALUES
+    ('Admin','Hotel','admin','123456');

@@ -1,18 +1,18 @@
 package com.hotel.service;
 
-import com.hotel.entity.BookingService;
+import com.hotel.entity.BookingDetail;
 
 import java.util.List;
 
 public interface BookingDetailService {
 
-    List<BookingService> getAll();
+    List<BookingDetail> getAll();
 
-    BookingService getById(Long id);
+    BookingDetail getById(Long id);
 
-    BookingService save(BookingService bookingService);
+    BookingDetail save(BookingDetail bookingService);
 
-    BookingService update(Long id, BookingService bookingService);
+    BookingDetail update(Long id, BookingDetail bookingService);
 
     void delete(Long id);
 }

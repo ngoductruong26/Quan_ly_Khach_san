@@ -1,7 +1,7 @@
 package com.hotel.service.impl;
 
-import com.hotel.entity.BookingService;
-import com.hotel.repository.BookingServiceRepository;
+import com.hotel.entity.BookingDetail;
+import com.hotel.repository.BookingDetailRepository;
 import com.hotel.service.BookingDetailService;
 
 import org.springframework.stereotype.Service;
@@ -12,24 +12,24 @@ import java.util.List;
 public class BookingDetailServiceImpl implements BookingDetailService {
 
 
-    private final BookingServiceRepository bookingServiceRepository;
+    private final BookingDetailRepository bookingServiceRepository;
 
 
     public BookingDetailServiceImpl(
-            BookingServiceRepository bookingServiceRepository) {
+            BookingDetailRepository bookingServiceRepository) {
 
         this.bookingServiceRepository = bookingServiceRepository;
     }
 
 
     @Override
-    public List<BookingService> getAll() {
+    public List<BookingDetail> getAll() {
         return bookingServiceRepository.findAll();
     }
 
 
     @Override
-    public BookingService getById(Long id) {
+    public BookingDetail getById(Long id) {
 
         return bookingServiceRepository.findById(id)
                 .orElseThrow(() ->
@@ -38,16 +38,16 @@ public class BookingDetailServiceImpl implements BookingDetailService {
 
 
     @Override
-    public BookingService save(BookingService bookingService) {
+    public BookingDetail save(BookingDetail bookingService) {
 
         return bookingServiceRepository.save(bookingService);
     }
 
 
     @Override
-    public BookingService update(Long id, BookingService bookingService) {
+    public BookingDetail update(Long id, BookingDetail bookingService) {
 
-        BookingService oldBookingService = getById(id);
+        BookingDetail oldBookingService = getById(id);
 
         oldBookingService.setQuantity(
                 bookingService.getQuantity()

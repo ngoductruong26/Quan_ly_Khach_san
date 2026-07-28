@@ -1,4 +1,44 @@
 package com.hotel.controller;
 
+import com.hotel.entity.Booking;
+import com.hotel.service.BookingService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/bookings")
 public class BookingController {
+
+    private final BookingService bookingService;
+
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
+
+    @GetMapping
+    public List<Booking> getAll() {
+        return bookingService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Booking getById(@PathVariable Long id) {
+        return bookingService.getById(id);
+    }
+
+    @PostMapping
+    public Booking save(@RequestBody Booking booking) {
+        return bookingService.save(booking);
+    }
+
+    @PutMapping("/{id}")
+    public Booking update(@PathVariable Long id,
+                          @RequestBody Booking booking) {
+        return bookingService.update(id, booking);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        bookingService.delete(id);
+    }
 }

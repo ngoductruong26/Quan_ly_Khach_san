@@ -16,13 +16,15 @@ public class HotelService {
 
     private BigDecimal price;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @OneToMany(mappedBy = "hotelService")
-    private List<BookingService> bookingServices;
+    private List<BookingDetail> bookingServices;
 
     public HotelService() {
     }
 
-    // Getter & Setter
     public Long getId() {
         return id;
     }
@@ -47,11 +49,19 @@ public class HotelService {
         this.price = price;
     }
 
-    public List<BookingService> getBookingServices() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<BookingDetail> getBookingServices() {
         return bookingServices;
     }
 
-    public void setBookingServices(List<BookingService> bookingServices) {
+    public void setBookingServices(List<BookingDetail> bookingServices) {
         this.bookingServices = bookingServices;
     }
 }

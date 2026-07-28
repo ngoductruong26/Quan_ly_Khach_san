@@ -29,7 +29,7 @@ public class Booking {
     private Room room;
 
     @OneToMany(mappedBy = "booking")
-    private List<BookingService> bookingServices;
+    private List<BookingDetail> bookingServices;
 
     @OneToOne(mappedBy = "booking")
     private Payment payment;
@@ -94,11 +94,11 @@ public class Booking {
         this.room = room;
     }
 
-    public List<BookingService> getBookingServices() {
+    public List<BookingDetail> getBookingServices() {
         return bookingServices;
     }
 
-    public void setBookingServices(List<BookingService> bookingServices) {
+    public void setBookingServices(List<BookingDetail> bookingServices) {
         this.bookingServices = bookingServices;
     }
 

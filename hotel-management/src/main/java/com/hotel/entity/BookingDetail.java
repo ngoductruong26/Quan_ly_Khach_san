@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "booking_services")
-public class BookingService {
+public class BookingDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class BookingService {
     @JoinColumn(name = "service_id")
     private HotelService hotelService;
 
-    public BookingService() {
+    public BookingDetail() {
     }
 
     // Getter & Setter
