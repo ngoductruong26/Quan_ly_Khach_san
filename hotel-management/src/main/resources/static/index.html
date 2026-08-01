@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Khách Sạn - DashBoard & Testing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-cyan: #06b6d4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-title h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-title p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .swagger-link {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .swagger-link:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            flex: 1;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 18px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .btn-add {
+            background: var(--accent-green);
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add:hover {
+            opacity: 0.9;
+        }
+
+        .table-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+        .badge-danger { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+        .badge-info { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-edit { background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); }
+        .btn-edit:hover { background: var(--accent-amber); color: #fff; }
+        .btn-delete { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
+        .btn-delete:hover { background: var(--accent-rose); color: #fff; }
+
+        footer {
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">🏨</div>
+            <div class="logo-title">
+                <h1>Hotel Management API Dashboard</h1>
+                <p>Hệ Thống Quản Lý Khách Sạn - Kiểm Thử Trực Tiếp</p>
+            </div>
+        </div>
+        <a href="/swagger-ui.html" target="_blank" class="swagger-link">
+            📖 Mở OpenAPI / Swagger Docs
+        </a>
+    </header>
+
+    <div class="container">
+        <!-- NAV TABS -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('rooms')">🏨 Danh Sách Phòng (/api/phong)</button>
+            <button class="tab-btn" onclick="switchTab('roomtypes')">🏷️ Loại Phòng (/api/room-types)</button>
+            <button class="tab-btn" onclick="switchTab('customers')">👤 Khách Hàng (/api/customers)</button>
+            <button class="tab-btn" onclick="switchTab('bookings')">📅 Đặt Phòng (/api/bookings)</button>
+            <button class="tab-btn" onclick="switchTab('services')">🛎️ Dịch Vụ (/api/services)</button>
+            <button class="tab-btn" onclick="switchTab('payments')">💳 Thanh Toán (/api/payments)</button>
+            <button class="tab-btn" onclick="switchTab('users')">🔑 Người Dùng (/api/users)</button>
+        </div>
+
+        <!-- 1. PHÒNG -->
+        <div id="rooms" class="tab-content active">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Phòng</div>
+                <button class="btn-add" onclick="loadRooms()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Số Phòng</th>
+                            <th>Tầng</th>
+                            <th>Trạng Thái</th>
+                            <th>Mã Loại Phòng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rooms-tbody">
+                        <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. LOẠI PHÒNG -->
+        <div id="roomtypes" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Loại Phòng</div>
+                <button class="btn-add" onclick="loadRoomTypes()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Loại Phòng</th>
+                            <th>Giá Phòng (VNĐ)</th>
+                            <th>Sức Chứa (Người)</th>
+                            <th>Mô Tả</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomtypes-tbody">
+                        <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. KHÁCH HÀNG -->
+        <div id="customers" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Khách Hàng</div>
+                <button class="btn-add" onclick="loadCustomers()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Họ và Tên</th>
+                            <th>Email</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Số CCCD/CMND</th>
+                            <th>Địa Chỉ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-tbody">
+                        <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 4. ĐẶT PHÒNG -->
+        <div id="bookings" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Đặt Phòng</div>
+                <button class="btn-add" onclick="loadBookings()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Đặt</th>
+                            <th>Ngày Nhận</th>
+                            <th>Ngày Trả</th>
+                            <th>Số Khách</th>
+                            <th>Trạng Thái</th>
+                            <th>ID Khách Hàng</th>
+                            <th>ID Phòng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-tbody">
+                        <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5. DỊCH VỤ -->
+        <div id="services" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Dịch Vụ Khách Sạn</div>
+                <button class="btn-add" onclick="loadServices()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Dịch Vụ</th>
+                            <th>Đơn Giá (VNĐ)</th>
+                            <th>Mô Tả</th>
+                        </tr>
+                    </thead>
+                    <tbody id="services-tbody">
+                        <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 6. THANH TOÁN -->
+        <div id="payments" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Lịch Sử Thanh Toán</div>
+                <button class="btn-add" onclick="loadPayments()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Giao Dịch</th>
+                            <th>Số Tiền</th>
+                            <th>Phương Thức</th>
+                            <th>Ngày Thanh Toán</th>
+                            <th>Trạng Thái</th>
+                            <th>ID Đặt Phòng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payments-tbody">
+                        <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 7. NGƯỜI DÙNG -->
+        <div id="users" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Tài Khoản Hệ Thống</div>
+                <button class="btn-add" onclick="loadUsers()">🔄 Tải lại dữ liệu</button>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Đăng Nhập</th>
+                            <th>Họ và Tên</th>
+                            <th>Vai Trò (Role)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Dự án Quản Lý Khách Sạn - Spring Boot REST API & MySQL Database Verification
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'rooms') loadRooms();
+            if (tabId === 'roomtypes') loadRoomTypes();
+            if (tabId === 'customers') loadCustomers();
+            if (tabId === 'bookings') loadBookings();
+            if (tabId === 'services') loadServices();
+            if (tabId === 'payments') loadPayments();
+            if (tabId === 'users') loadUsers();
+        }
+
+        function formatCurrency(val) {
+            if (!val) return '0 VNĐ';
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
+        }
+
+        async function fetchAPI(url) {
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return await res.json();
+            } catch (err) {
+                console.error(`Fetch error ${url}:`, err);
+                return null;
+            }
+        }
+
+        async function loadRooms() {
+            const tbody = document.getElementById('rooms-tbody');
+            const data = await fetchAPI('/api/phong');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Chưa có dữ liệu phòng</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(r => `
+                <tr>
+                    <td><strong>#${r.id}</strong></td>
+                    <td><span style="font-size:1.1rem; font-weight:600; color:var(--accent-cyan);">Phòng ${r.roomNumber}</span></td>
+                    <td>${r.floor || 'Tầng 1'}</td>
+                    <td><span class="badge ${r.status === 'AVAILABLE' ? 'badge-success' : 'badge-warning'}">${r.status}</span></td>
+                    <td>${r.roomType ? r.roomType.typeName + ' (ID: ' + r.roomType.id + ')' : (r.roomTypeId || 'N/A')}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadRoomTypes() {
+            const tbody = document.getElementById('roomtypes-tbody');
+            const data = await fetchAPI('/api/room-types');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Chưa có loại phòng</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(rt => `
+                <tr>
+                    <td><strong>#${rt.id}</strong></td>
+                    <td><strong>${rt.typeName}</strong></td>
+                    <td style="color:var(--accent-green); font-weight:600;">${formatCurrency(rt.price)}</td>
+                    <td>${rt.capacity} người</td>
+                    <td>${rt.description || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadCustomers() {
+            const tbody = document.getElementById('customers-tbody');
+            const data = await fetchAPI('/api/customers');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Chưa có khách hàng</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(c => `
+                <tr>
+                    <td><strong>#${c.id}</strong></td>
+                    <td><strong>${c.fullName}</strong></td>
+                    <td>${c.email}</td>
+                    <td>${c.phone}</td>
+                    <td><code style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px;">${c.identityNumber}</code></td>
+                    <td>${c.address || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadBookings() {
+            const tbody = document.getElementById('bookings-tbody');
+            const data = await fetchAPI('/api/bookings');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted);">Chưa có đơn đặt phòng</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(b => `
+                <tr>
+                    <td><strong>#${b.id}</strong></td>
+                    <td>${b.checkInDate || '-'}</td>
+                    <td>${b.checkOutDate || '-'}</td>
+                    <td>${b.numberOfGuests || 1} người</td>
+                    <td><span class="badge badge-info">${b.status}</span></td>
+                    <td>ID: ${b.customer ? b.customer.id : b.customerId}</td>
+                    <td>ID: ${b.room ? b.room.id : b.roomId}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadServices() {
+            const tbody = document.getElementById('services-tbody');
+            const data = await fetchAPI('/api/services');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Chưa có dịch vụ</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(s => `
+                <tr>
+                    <td><strong>#${s.id}</strong></td>
+                    <td><strong>${s.serviceName}</strong></td>
+                    <td style="color:var(--accent-green); font-weight:600;">${formatCurrency(s.price)}</td>
+                    <td>${s.description || '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadPayments() {
+            const tbody = document.getElementById('payments-tbody');
+            const data = await fetchAPI('/api/payments');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Chưa có giao dịch thanh toán</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(p => `
+                <tr>
+                    <td><strong>#${p.id}</strong></td>
+                    <td style="color:var(--accent-green); font-weight:600;">${formatCurrency(p.amount)}</td>
+                    <td><span class="badge badge-info">${p.paymentMethod}</span></td>
+                    <td>${p.paymentDate || '-'}</td>
+                    <td><span class="badge badge-success">${p.paymentStatus}</span></td>
+                    <td>ID Đặt: ${p.booking ? p.booking.id : p.bookingId}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadUsers() {
+            const tbody = document.getElementById('users-tbody');
+            const data = await fetchAPI('/api/users');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Chưa có người dùng</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.map(u => `
+                <tr>
+                    <td><strong>#${u.id}</strong></td>
+                    <td><code>${u.username}</code></td>
+                    <td><strong>${u.fullName}</strong></td>
+                    <td><span class="badge badge-warning">${u.role}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // Default load on start
+        window.addEventListener('DOMContentLoaded', () => {
+            loadRooms();
+        });
+    </script>
+</body>
+</html>
