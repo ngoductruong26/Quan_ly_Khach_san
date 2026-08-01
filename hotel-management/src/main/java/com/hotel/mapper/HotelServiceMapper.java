@@ -6,27 +6,25 @@ import com.hotel.entity.HotelService;
 public class HotelServiceMapper {
 
     public static HotelServiceDTO toDTO(HotelService service) {
-
         if (service == null) {
             return null;
         }
 
-        return HotelServiceDTO.builder()
-                .id(service.getId())
-                .serviceName(service.getServiceName())
-                .price(service.getPrice())
-                .description(service.getDescription())
-                .build();
+        HotelServiceDTO dto = new HotelServiceDTO();
+        dto.setId(service.getId());
+        dto.setServiceName(service.getServiceName());
+        dto.setPrice(service.getPrice());
+        dto.setDescription(service.getDescription());
+
+        return dto;
     }
 
     public static HotelService toEntity(HotelServiceDTO dto) {
-
         if (dto == null) {
             return null;
         }
 
         HotelService service = new HotelService();
-
         service.setId(dto.getId());
         service.setServiceName(dto.getServiceName());
         service.setPrice(dto.getPrice());

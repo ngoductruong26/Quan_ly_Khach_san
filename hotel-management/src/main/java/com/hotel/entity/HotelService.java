@@ -3,6 +3,7 @@ package com.hotel.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "hotel_services")
@@ -20,6 +21,7 @@ public class HotelService {
     private String description;
 
     @OneToMany(mappedBy = "hotelService")
+    @JsonIgnore
     private List<BookingDetail> bookingServices;
 
     public HotelService() {

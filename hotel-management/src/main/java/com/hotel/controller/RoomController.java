@@ -16,26 +16,33 @@ public class RoomController {
         this.roomService = roomService;
     }
 
+
     @GetMapping
     public List<Room> getAll() {
         return roomService.getAll();
     }
+
 
     @GetMapping("/{id}")
     public Room getById(@PathVariable Long id) {
         return roomService.getById(id);
     }
 
+
     @PostMapping
     public Room save(@RequestBody Room room) {
         return roomService.save(room);
     }
 
+
     @PutMapping("/{id}")
-    public Room update(@PathVariable Long id,
-                       @RequestBody Room room) {
+    public Room update(
+            @PathVariable Long id,
+            @RequestBody Room room
+    ) {
         return roomService.update(id, room);
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

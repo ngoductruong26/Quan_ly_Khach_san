@@ -1,8 +1,11 @@
 package com.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "bookings")
@@ -22,20 +25,21 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @JsonBackReference
     private Room room;
 
     @OneToMany(mappedBy = "booking")
+    @JsonIgnore
     private List<BookingDetail> bookingServices;
 
     @OneToOne(mappedBy = "booking")
+    @JsonIgnore
     private Payment payment;
-
-    public Booking() {
-    }
 
     // Getter & Setter
     public Long getId() {

@@ -1,9 +1,13 @@
 package com.hotel.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.List;
 
 @Entity
-@Table(name = "phong")
+@Table(name = "rooms")
 public class Room {
 
     @Id
@@ -20,6 +24,9 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "room_type_id")
     private RoomType roomType;
+    @OneToMany(mappedBy = "room")
+    @JsonIgnore
+    private List<Booking> bookings;
 
     public Room() {
     }

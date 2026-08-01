@@ -1,6 +1,7 @@
 package com.hotel.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "booking_services")
@@ -14,6 +15,7 @@ public class BookingDetail {
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
+    @JsonBackReference
     private Booking booking;
 
     @ManyToOne
