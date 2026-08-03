@@ -1,0 +1,235 @@
+/* =========================
+   HOTEL HOMEPAGE DARK BLUE
+========================= */
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #061826;
+    color: white;
+}
+
+
+/* HEADER */
+
+header {
+    background: rgba(3, 18, 32, 0.95);
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.logo-title h1 {
+    color: #ffffff;
+    margin: 0;
+}
+
+
+.logo-title p {
+    color: #9bbbd6;
+}
+
+
+/* NAV */
+
+.navbar {
+    background: #08263d;
+}
+
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+
+.navbar a:hover {
+    color: #4db8ff;
+}
+
+
+/* HERO */
+
+.hero {
+    background:
+            linear-gradient(
+                    rgba(2,20,35,0.75),
+                    rgba(2,20,35,0.9)
+            ),
+            url("../images/hotel.jpg");
+
+    background-size: cover;
+    background-position: center;
+
+    min-height: 650px;
+
+    display:flex;
+    align-items:center;
+}
+
+
+.hero h1 {
+    font-size: 55px;
+    font-weight:700;
+}
+
+
+.hero p {
+    color:#c7d9e8;
+    font-size:20px;
+}
+
+
+
+/* BUTTON */
+
+.btn-login {
+
+    background:#1d8cff;
+
+    color:white;
+
+    padding:14px 35px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+
+.btn-login:hover {
+
+    background:#005fcc;
+
+}
+
+
+
+/* SECTION */
+
+section {
+
+    padding:70px 80px;
+
+}
+
+
+
+.section-title {
+
+    text-align:center;
+
+    color:white;
+
+    font-size:35px;
+
+}
+
+
+
+/* ROOM CARD */
+
+.room-card {
+
+    background:#0b263d;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    transition:.3s;
+
+}
+
+
+.room-card:hover {
+
+    transform:translateY(-10px);
+
+}
+
+
+
+.room-card img {
+
+    width:100%;
+
+    height:250px;
+
+    object-fit:cover;
+
+}
+
+
+.room-card h3 {
+
+    color:#4db8ff;
+
+}
+
+
+.room-card p {
+
+    color:#c4d7e6;
+
+}
+
+
+
+/* SERVICE */
+
+.service-box {
+
+    background:#092238;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+}
+
+
+.service-box:hover {
+
+    background:#103552;
+
+}
+
+
+
+/* REVIEW */
+
+.review {
+
+    background:#0b263d;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    color:#d9e7f2;
+
+}
+
+
+
+/* FOOTER */
+
+footer {
+
+    background:#03111f;
+
+    padding:40px;
+
+    text-align:center;
+
+    color:#8faabd;
+
+}
