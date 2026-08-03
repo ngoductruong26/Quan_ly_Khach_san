@@ -1,850 +1,667 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Paradise</title>
+    <title>Hotel Paradise - Khách Sạn Sang Trọng & Đẳng Cấp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-cyan: #06b6d4;
+        }
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            scroll-behavior: smooth;
+        }
 
-    <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+        header {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .logo-title h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-title p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .btn-login {
+            background: var(--primary);
+            color: #ffffff !important;
+            padding: 9px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-login:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            padding: 5rem 2rem;
+            background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.15), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(6, 182, 212, 0.1), transparent 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1250px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-main:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-muted);
+        }
+
+        .hero-img {
+            width: 100%;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+            object-fit: cover;
+            height: 380px;
+        }
+
+        /* STATS */
+        .stats-section {
+            padding: 2.5rem 0;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(30, 41, 59, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-amber);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* SECTION STYLES */
+        section {
+            padding: 4rem 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h5 {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* CARDS GRID */
+        .cards-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-body h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .card-body p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 1.2rem;
+        }
+
+        /* SERVICE ICON BOX */
+        .service-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(79, 70, 229, 0.15);
+            color: var(--primary);
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 1.2rem;
+        }
+
+        /* GALLERY GRID */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .gallery-item {
+            border-radius: 14px;
+            overflow: hidden;
+            height: 200px;
+            border: 1px solid var(--card-border);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* REVIEWS */
+        .review-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .review-stars {
+            color: var(--accent-amber);
+        }
+
+        footer {
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-top: auto;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- ================= HEADER ================= -->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top">
-
-    <div class="container">
-
-        <a class="navbar-brand fw-bold fs-3 text-warning" href="/">
-            <i class="fa-solid fa-hotel"></i>
-            Hotel Paradise
+    <!-- HEADER -->
+    <header>
+        <a href="/" class="logo-area">
+            <div class="logo-icon">🏨</div>
+            <div class="logo-title">
+                <h1>Hotel Paradise</h1>
+                <p>Khách Sạn Sang Trọng 5 Sao</p>
+            </div>
         </a>
 
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#menu">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-        <div class="collapse navbar-collapse" id="menu">
-
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        Trang chủ
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">
-                        Giới thiệu
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#service">
-                        Dịch vụ
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#rooms">
-                        Phòng
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#gallery">
-                        Thư viện
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">
-                        Liên hệ
-                    </a>
-                </li>
-
-            </ul>
-
-            <a href="/dashboard"
-               class="btn btn-warning ms-3">
-
-                <i class="fa-solid fa-user"></i>
-                Đăng nhập
-
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
-
-<!-- ================= HERO ================= -->
-
-<section class="hero">
-
-    <div class="container">
-
-        <div class="row align-items-center">
-
-            <div class="col-lg-6">
-
-                <h5 class="text-warning">
-                    ★★★★★ Khách sạn tiêu chuẩn quốc tế
-                </h5>
-
-                <h1 class="display-3 fw-bold text-white mt-3">
-
-                    HOTEL
-
-                    <span class="text-warning">
-
-                        PARADISE
-
-                    </span>
-
-                </h1>
-
-                <p class="lead text-light mt-4">
-
-                    Trải nghiệm không gian nghỉ dưỡng sang trọng,
-                    tiện nghi hiện đại cùng dịch vụ đẳng cấp 5 sao.
-
-                </p>
-
-                <div class="mt-5">
-
-                    <a href="#rooms"
-                       class="btn btn-warning btn-lg me-3">
-
-                        Đặt phòng ngay
-
-                    </a>
-
-                    <a href="/dashboard"
-                       class="btn btn-outline-light btn-lg">
-
-                        Đăng nhập
-
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-6 text-center">
-
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900"
-                     class="img-fluid rounded shadow-lg"
-                     alt="Hotel">
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= THỐNG KÊ ================= -->
-
-<section class="py-5 bg-light">
-
-    <div class="container">
-
-        <div class="row text-center">
-
-            <div class="col-md-3">
-
-                <h2 class="text-warning fw-bold">
-
-                    150+
-
-                </h2>
-
-                <p>Phòng nghỉ</p>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <h2 class="text-warning fw-bold">
-
-                    3000+
-
-                </h2>
-
-                <p>Khách hàng</p>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <h2 class="text-warning fw-bold">
-
-                    24/7
-
-                </h2>
-
-                <p>Hỗ trợ</p>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <h2 class="text-warning fw-bold">
-
-                    5★
-
-                </h2>
-
-                <p>Đánh giá</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= GIỚI THIỆU ================= -->
-
-<section id="about" class="py-5">
-
-    <div class="container">
-
-        <div class="row align-items-center">
-
-            <div class="col-lg-6">
-
-                <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=900"
-                     class="img-fluid rounded shadow"
-                     alt="Khách sạn">
-
-            </div>
-
-            <div class="col-lg-6">
-
-                <h5 class="text-warning fw-bold">
-                    GIỚI THIỆU
-                </h5>
-
-                <h2 class="fw-bold mb-4">
-                    Chào mừng đến với Hotel Paradise
-                </h2>
-
-                <p class="text-muted">
-
-                    Hotel Paradise là khách sạn tiêu chuẩn 5 sao với hệ
-                    thống phòng nghỉ hiện đại, không gian sang trọng,
-                    dịch vụ chuyên nghiệp và đội ngũ nhân viên tận tâm.
-
-                </p>
-
-                <p class="text-muted">
-
-                    Chúng tôi luôn mong muốn mang đến cho khách hàng
-                    những trải nghiệm nghỉ dưỡng tuyệt vời nhất với
-                    đầy đủ tiện nghi, hồ bơi, spa, nhà hàng và nhiều
-                    dịch vụ cao cấp khác.
-
-                </p>
-
-                <div class="row mt-4">
-
-                    <div class="col-6">
-
-                        <h3 class="text-warning fw-bold">
-                            150+
-                        </h3>
-
-                        <p>Phòng cao cấp</p>
-
+        <ul class="nav-links">
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#about">Giới thiệu</a></li>
+            <li><a href="#services">Dịch vụ</a></li>
+            <li><a href="#rooms">Loại phòng</a></li>
+            <li><a href="#gallery">Thư viện</a></li>
+            <li><a href="#reviews">Đánh giá</a></li>
+        </ul>
+
+        <a href="/dashboard" class="btn-login">
+            🔑 Đăng nhập Dashboard
+        </a>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="hero-badge">
+                        ★★★★★ Khách sạn tiêu chuẩn quốc tế
                     </div>
-
-                    <div class="col-6">
-
-                        <h3 class="text-warning fw-bold">
-                            10+
-                        </h3>
-
-                        <p>Năm kinh nghiệm</p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= DỊCH VỤ ================= -->
-
-<section id="service" class="py-5 bg-light">
-
-    <div class="container">
-
-        <div class="text-center mb-5">
-
-            <h5 class="text-warning fw-bold">
-                DỊCH VỤ
-            </h5>
-
-            <h2 class="fw-bold">
-                Dịch vụ nổi bật
-            </h2>
-
-            <p class="text-muted">
-                Chúng tôi mang đến những dịch vụ tốt nhất dành cho khách hàng.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card border-0 shadow h-100 service-card">
-
-                    <div class="card-body text-center">
-
-                        <i class="fa-solid fa-bed fa-3x text-warning mb-3"></i>
-
-                        <h4>Phòng nghỉ cao cấp</h4>
-
-                        <p class="text-muted">
-
-                            Phòng đầy đủ tiện nghi, sạch sẽ,
-                            hiện đại và sang trọng.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card border-0 shadow h-100 service-card">
-
-                    <div class="card-body text-center">
-
-                        <i class="fa-solid fa-utensils fa-3x text-warning mb-3"></i>
-
-                        <h4>Nhà hàng</h4>
-
-                        <p class="text-muted">
-
-                            Phục vụ nhiều món ăn Á - Âu
-                            với đầu bếp chuyên nghiệp.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card border-0 shadow h-100 service-card">
-
-                    <div class="card-body text-center">
-
-                        <i class="fa-solid fa-water-ladder fa-3x text-warning mb-3"></i>
-
-                        <h4>Hồ bơi</h4>
-
-                        <p class="text-muted">
-
-                            Hồ bơi ngoài trời rộng rãi,
-                            nước sạch và an toàn.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card border-0 shadow h-100 service-card">
-
-                    <div class="card-body text-center">
-
-                        <i class="fa-solid fa-spa fa-3x text-warning mb-3"></i>
-
-                        <h4>Spa & Massage</h4>
-
-                        <p class="text-muted">
-
-                            Dịch vụ chăm sóc sức khỏe
-                            và thư giãn cao cấp.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card border-0 shadow h-100 service-card">
-
-                    <div class="card-body text-center">
-
-                        <i class="fa-solid fa-car-side fa-3x text-warning mb-3"></i>
-
-                        <h4>Đưa đón sân bay</h4>
-
-                        <p class="text-muted">
-
-                            Hỗ trợ đưa đón khách
-                            nhanh chóng và an toàn.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="card border-0 shadow h-100 service-card">
-
-                    <div class="card-body text-center">
-
-                        <i class="fa-solid fa-wifi fa-3x text-warning mb-3"></i>
-
-                        <h4>Wifi miễn phí</h4>
-
-                        <p class="text-muted">
-
-                            Internet tốc độ cao
-                            phủ sóng toàn khách sạn.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- LOẠI PHÒNG -->
-
-<section class="mt-5">
-
-    <h2 class="text-center mb-4">
-        🏨 Các loại phòng
-    </h2>
-
-
-    <div class="row">
-
-
-        <div class="col-md-4">
-
-            <div class="card shadow">
-
-                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a"
-                     class="card-img-top"
-                     height="220">
-
-
-                <div class="card-body">
-
-                    <h4>
-                        Phòng đơn
-                    </h4>
-
-                    <p>
-                        Phòng dành cho 1 người,
-                        đầy đủ tiện nghi,
-                        phù hợp cho khách công tác.
+                    <h1 class="hero-title">
+                        Trải Nghiệm Nghỉ Dưỡng <span>Đẳng Cấp 5 Sao</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Hotel Paradise mang đến không gian nghỉ dưỡng sang trọng, tiện nghi hiện đại cùng hệ thống quản lý chuẩn hóa cho sự thoải mái tuyệt đối.
                     </p>
-
-
-                    <h5 class="text-primary">
-                        500.000 VNĐ / đêm
-                    </h5>
-
-
-                    <a href="/booking"
-                       class="btn btn-primary">
-                        Đặt phòng
-                    </a>
-
-
+                    <div class="hero-actions">
+                        <a href="/dashboard" class="btn-main">
+                            🔑 Đăng Nhập Dashboard
+                        </a>
+                        <a href="#rooms" class="btn-outline">
+                            🏨 Khám Phá Phòng
+                        </a>
+                    </div>
                 </div>
-
+                <div>
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900" alt="Hotel" class="hero-img">
+                </div>
             </div>
-
         </div>
+    </div>
 
+    <!-- STATS -->
+    <div class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-num">150+</div>
+                    <div class="stat-label">Phòng Cao Cấp</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">3000+</div>
+                    <div class="stat-label">Khách Hàng Hài Lòng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">24/7</div>
+                    <div class="stat-label">Hỗ Trợ Chuyên Nghiệp</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">5 ★</div>
+                    <div class="stat-label">Đánh Giá Quốc Tế</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-        <div class="col-md-4">
-
-
-            <div class="card shadow">
-
-
-                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427"
-                     class="card-img-top"
-                     height="220">
-
-
-
-                <div class="card-body">
-
-
-                    <h4>
-                        Phòng đôi
-                    </h4>
-
-
-                    <p>
-                        Không gian rộng,
-                        phù hợp cho gia đình
-                        hoặc nhóm bạn.
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=900" alt="About" class="hero-img">
+                </div>
+                <div>
+                    <div class="section-title" style="text-align: left; margin-bottom: 1.5rem;">
+                        <h5>Giới Thiệu</h5>
+                        <h2>Chào mừng đến với Hotel Paradise</h2>
+                    </div>
+                    <p class="hero-desc" style="margin-bottom: 1rem;">
+                        Hotel Paradise là hệ thống khách sạn hàng đầu với kiến trúc hiện đại, vị trí thuận tiện và dịch vụ hoàn hảo. Chúng tôi cam kết đem lại trải nghiệm lưu trú trọn vẹn nhất cho quý khách.
                     </p>
-
-
-                    <h5 class="text-success">
-                        800.000 VNĐ / đêm
-                    </h5>
-
-
-                    <a href="/booking"
-                       class="btn btn-success">
-                        Đặt phòng
-                    </a>
-
-
+                    <div class="hero-actions">
+                        <a href="/dashboard" class="btn-main">
+                            💻 Quản Lý Hệ Thống Dashboard
+                        </a>
+                    </div>
                 </div>
-
-
             </div>
-
-
         </div>
+    </section>
 
-
-
-
-
-        <div class="col-md-4">
-
-
-            <div class="card shadow">
-
-
-                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"
-                     class="card-img-top"
-                     height="220">
-
-
-
-                <div class="card-body">
-
-
-                    <h4>
-                        Phòng VIP
-                    </h4>
-
-
-                    <p>
-                        Phòng cao cấp,
-                        view đẹp,
-                        nhiều tiện ích sang trọng.
-                    </p>
-
-
-                    <h5 class="text-danger">
-                        1.500.000 VNĐ / đêm
-                    </h5>
-
-
-                    <a href="/booking"
-                       class="btn btn-danger">
-                        Đặt phòng
-                    </a>
-
-
+    <!-- SERVICES -->
+    <section id="services" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <div class="section-title">
+                <h5>Dịch Vụ</h5>
+                <h2>Dịch Vụ Nổi Bật Tại Hotel Paradise</h2>
+            </div>
+            <div class="cards-grid-3">
+                <div class="card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-bed"></i></div>
+                    <h4>Phòng Nghỉ Cao Cấp</h4>
+                    <p>Phòng đầy đủ tiện nghi hiện đại, sạch sẽ và thoáng mát.</p>
                 </div>
-
-
+                <div class="card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <h4>Nhà Hàng Sang Trọng</h4>
+                    <p>Thực đơn phong phú từ các đầu bếp hàng đầu thế giới.</p>
+                </div>
+                <div class="card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-water-ladder"></i></div>
+                    <h4>Hồ Bơi Vô Cực</h4>
+                    <p>Hồ bơi ngoài trời hiện đại với view panorama tuyệt đẹp.</p>
+                </div>
             </div>
-
-
         </div>
-
-
-
-    </div>
-
-
-</section>
-
-
-
-
-
-<!-- THƯ VIỆN ẢNH -->
-
-
-<section class="mt-5">
-
-
-    <h2 class="text-center mb-4">
-        📸 Thư viện khách sạn
-    </h2>
-
-
-
-    <div class="row g-3">
-
-
-        <div class="col-md-3">
-
-            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945"
-                 class="img-fluid rounded shadow"
-                 height="200">
-
-        </div>
-
-
-
-        <div class="col-md-3">
-
-
-            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa"
-                 class="img-fluid rounded shadow"
-                 height="200">
-
-
-        </div>
-
-
-
-        <div class="col-md-3">
-
-
-            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d"
-                 class="img-fluid rounded shadow"
-                 height="200">
-
-
-        </div>
-
-
-
-
-        <div class="col-md-3">
-
-
-            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
-                 class="img-fluid rounded shadow"
-                 height="200">
-
-
-        </div>
-
-
-    </div>
-
-
-</section>
-<!-- ĐÁNH GIÁ KHÁCH HÀNG -->
-
-
-<section class="mt-5">
-
-
-    <h2 class="text-center mb-4">
-        ⭐ Đánh giá khách hàng
-    </h2>
-
-
-
-    <div class="row">
-
-
-
-        <div class="col-md-4">
-
-
-            <div class="card p-4 shadow">
-
-
-                <h5>
-                    Nguyễn Văn A
-                </h5>
-
-
-                <p>
-                    ⭐⭐⭐⭐⭐
-                </p>
-
-
-                <p>
-                    Khách sạn sạch đẹp,
-                    nhân viên phục vụ rất tốt.
-                </p>
-
-
+    </section>
+
+    <!-- ROOM TYPES -->
+    <section id="rooms">
+        <div class="container">
+            <div class="section-title">
+                <h5>Loại Phòng</h5>
+                <h2>Các Hạng Phòng Nổi Bật</h2>
             </div>
-
-
-        </div>
-
-
-
-
-
-        <div class="col-md-4">
-
-
-            <div class="card p-4 shadow">
-
-
-                <h5>
-                    Trần Thị B
-                </h5>
-
-
-                <p>
-                    ⭐⭐⭐⭐⭐
-                </p>
-
-
-                <p>
-                    Phòng rộng,
-                    giá hợp lý,
-                    sẽ quay lại lần sau.
-                </p>
-
-
+            <div class="cards-grid-3">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a" alt="Single" class="card-img">
+                    <div class="card-body">
+                        <h4>Phòng Đơn Standard</h4>
+                        <p>Phòng thích hợp cho 1 khách công tác, thiết kế hiện đại và yên tĩnh.</p>
+                        <div class="card-price">500.000 VNĐ / đêm</div>
+                        <a href="/dashboard" class="btn-main" style="width: 100%; justify-content: center;">🔑 Đặt / Quản lý tại Dashboard</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427" alt="Double" class="card-img">
+                    <div class="card-body">
+                        <h4>Phòng Đôi Deluxe</h4>
+                        <p>Không gian rộng rãi cho cặp đôi hoặc gia đình nhỏ với giường King size.</p>
+                        <div class="card-price">800.000 VNĐ / đêm</div>
+                        <a href="/dashboard" class="btn-main" style="width: 100%; justify-content: center;">🔑 Đặt / Quản lý tại Dashboard</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" alt="VIP" class="card-img">
+                    <div class="card-body">
+                        <h4>Phòng VIP Suite</h4>
+                        <p>Hạng phòng cao cấp nhất với ban công view biển và dịch vụ riêng biệt.</p>
+                        <div class="card-price">1.500.000 VNĐ / đêm</div>
+                        <a href="/dashboard" class="btn-main" style="width: 100%; justify-content: center;">🔑 Đặt / Quản lý tại Dashboard</a>
+                    </div>
+                </div>
             </div>
-
-
         </div>
+    </section>
 
-
-
-
-
-        <div class="col-md-4">
-
-
-            <div class="card p-4 shadow">
-
-
-                <h5>
-                    Lê Văn C
-                </h5>
-
-
-                <p>
-                    ⭐⭐⭐⭐
-                </p>
-
-
-                <p>
-                    Dịch vụ tốt,
-                    vị trí thuận tiện.
-                </p>
-
-
+    <!-- GALLERY -->
+    <section id="gallery" style="background: rgba(30, 41, 59, 0.3);">
+        <div class="container">
+            <div class="section-title">
+                <h5>Thư Viện</h5>
+                <h2>Hình Ảnh Khách Sạn</h2>
             </div>
-
-
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945" alt="G1">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa" alt="G2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d" alt="G3">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" alt="G4">
+                </div>
+            </div>
         </div>
+    </section>
 
+    <!-- REVIEWS -->
+    <section id="reviews">
+        <div class="container">
+            <div class="section-title">
+                <h5>Đánh Giá</h5>
+                <h2>Khách Hàng Nói Gì Về Chúng Tôi</h2>
+            </div>
+            <div class="cards-grid-3">
+                <div class="review-card">
+                    <div class="review-header">
+                        <h4>Nguyễn Văn A</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p style="color: var(--text-muted);">"Khách sạn rất đẹp, dịch vụ phòng nhanh chóng. Hệ thống quản lý rất mượt mà!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <h4>Trần Thị B</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p style="color: var(--text-muted);">"Phòng ốc vô cùng sạch sẽ, nhân viên lịch sự. Sẽ còn quay lại lần sau!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <h4>Lê Văn C</h4>
+                        <div class="review-stars">★★★★☆</div>
+                    </div>
+                    <p style="color: var(--text-muted);">"Giá cả phải chăng, vị trí trung tâm di chuyển tiện lợi."</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-
-    </div>
-
-
-</section>
-
-
-
-
-
-<!-- FOOTER -->
-
-
-<footer class="mt-5 p-4 bg-dark text-white text-center">
-
-
-    <h4>
-        🏨 Hotel Management System
-    </h4>
-
-
-    <p>
-        Hệ thống quản lý khách sạn
-        được xây dựng bằng Spring Boot + MySQL
-    </p>
-
-
-    <p>
-        © 2026 - Nhóm phát triển
-    </p>
-
-
-
-</footer>
-
-
-
-
-<!-- Bootstrap JS -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-
-
+    <!-- FOOTER -->
+    <footer>
+        Dự án Quản Lý Khách Sạn - Hotel Management System Dashboard & Testing Interface
+    </footer>
 
 </body>
-
 </html>

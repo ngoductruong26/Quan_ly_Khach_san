@@ -146,29 +146,29 @@ INSERT INTO room_types (type_name, price, capacity, description) VALUES
 
 -- ROOMS
 INSERT INTO rooms (room_number, floor, status, room_type_id) VALUES
-        ('101', 'Tầng 1', 'AVAILABLE', 1),
-        ('102', 'Tầng 1', 'AVAILABLE', 1),
-        ('103', 'Tầng 1', 'AVAILABLE', 2),
-        ('104', 'Tầng 1', 'MAINTENANCE', 2),
-        ('105', 'Tầng 1', 'AVAILABLE', 3),
+        ('101', '1', 'AVAILABLE', 1),
+        ('102', '1', 'AVAILABLE', 1),
+        ('103', '1', 'AVAILABLE', 2),
+        ('104', '1', 'MAINTENANCE', 2),
+        ('105', '1', 'AVAILABLE', 3),
 
-        ('201', 'Tầng 2', 'OCCUPIED', 4),
-        ('202', 'Tầng 2', 'AVAILABLE', 4),
-        ('203', 'Tầng 2', 'OCCUPIED', 3),
-        ('204', 'Tầng 2', 'AVAILABLE', 5),
-        ('205', 'Tầng 2', 'AVAILABLE', 5),
+        ('201', '2', 'OCCUPIED', 4),
+        ('202', '2', 'AVAILABLE', 4),
+        ('203', '2', 'OCCUPIED', 3),
+        ('204', '2', 'AVAILABLE', 5),
+        ('205', '2', 'AVAILABLE', 5),
 
-        ('301', 'Tầng 3', 'AVAILABLE', 6),
-        ('302', 'Tầng 3', 'AVAILABLE', 6),
-        ('303', 'Tầng 3', 'OCCUPIED', 6),
-        ('304', 'Tầng 3', 'AVAILABLE', 5),
-        ('305', 'Tầng 3', 'AVAILABLE', 5),
+        ('301', '3', 'AVAILABLE', 6),
+        ('302', '3', 'AVAILABLE', 6),
+        ('303', '3', 'OCCUPIED', 6),
+        ('304', '3', 'AVAILABLE', 5),
+        ('305', '3', 'AVAILABLE', 5),
 
-        ('401', 'Tầng 4', 'AVAILABLE', 6),
-        ('402', 'Tầng 4', 'AVAILABLE', 6),
-        ('403', 'Tầng 4', 'AVAILABLE', 5),
-        ('404', 'Tầng 4', 'MAINTENANCE', 3),
-        ('405', 'Tầng 4', 'AVAILABLE', 2);
+        ('401', '4', 'AVAILABLE', 6),
+        ('402', '4', 'AVAILABLE', 6),
+        ('403', '4', 'AVAILABLE', 5),
+        ('404', '4', 'MAINTENANCE', 3),
+        ('405', '4', 'AVAILABLE', 2);
 
 -- CUSTOMERS
 INSERT INTO customers (full_name, email, phone, address, identity_number) VALUES
