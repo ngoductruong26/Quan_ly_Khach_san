@@ -3,7 +3,7 @@ package com.hotel.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "payments")
@@ -23,7 +23,7 @@ public class Payment {
 
     @OneToOne
     @JoinColumn(name = "booking_id")
-    @JsonBackReference
+    @JsonIgnoreProperties("payment")
     private Booking booking;
 
     public Payment() {

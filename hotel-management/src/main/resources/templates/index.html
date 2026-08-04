@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Khách Sạn - Dashboard & Testing</title>
+    <title>Hệ Thống Quản Lý Khách Sạn - Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,6 +18,7 @@
             --accent-amber: #f59e0b;
             --accent-rose: #f43f5e;
             --accent-cyan: #06b6d4;
+            --accent-purple: #a855f7;
         }
 
         * {
@@ -36,7 +37,7 @@
         }
 
         header {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.9);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--card-border);
             padding: 1rem 2rem;
@@ -55,14 +56,14 @@
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, var(--primary), #818cf8);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 22px;
         }
 
         .logo-title h1 {
@@ -78,27 +79,42 @@
             color: var(--text-muted);
         }
 
-        .swagger-link {
-            background: rgba(255, 255, 255, 0.05);
+        .header-user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-badge {
+            background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--card-border);
-            color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 0.875rem;
-            transition: all 0.2s;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .swagger-link:hover {
-            background: var(--primary);
-            border-color: var(--primary);
+        .btn-logout {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--accent-rose);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(244, 63, 94, 0.3);
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1350px;
             width: 100%;
             margin: 0 auto;
             padding: 2rem 1.5rem;
@@ -120,7 +136,7 @@
             color: var(--text-muted);
             padding: 10px 18px;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
@@ -202,47 +218,43 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .btn-refresh:hover {
             background: rgba(255, 255, 255, 0.15);
         }
 
-        .btn-edit {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--accent-amber);
-            border: 1px solid rgba(245, 158, 11, 0.3);
+        .btn-action {
             padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
-            margin-right: 6px;
+            margin-right: 4px;
+            border: 1px solid transparent;
         }
 
-        .btn-edit:hover {
-            background: rgba(245, 158, 11, 0.3);
+        .btn-edit {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border-color: rgba(245, 158, 11, 0.3);
         }
+        .btn-edit:hover { background: rgba(245, 158, 11, 0.3); }
 
         .btn-delete {
             background: rgba(244, 63, 94, 0.15);
             color: var(--accent-rose);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s;
+            border-color: rgba(244, 63, 94, 0.3);
         }
+        .btn-delete:hover { background: rgba(244, 63, 94, 0.3); }
 
-        .btn-delete:hover {
-            background: rgba(244, 63, 94, 0.3);
+        .btn-invoice {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+            border-color: rgba(168, 85, 247, 0.3);
         }
+        .btn-invoice:hover { background: rgba(168, 85, 247, 0.3); }
 
         .table-card {
             background: var(--card-bg);
@@ -295,6 +307,47 @@
         .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
         .badge-danger { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
         .badge-info { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .badge-purple { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+
+        /* DASHBOARD STAT CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-info h4 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .stat-info .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
 
         /* MODAL STYLES */
         .modal {
@@ -322,7 +375,7 @@
             border: 1px solid var(--card-border);
             border-radius: 16px;
             width: 100%;
-            max-width: 540px;
+            max-width: 580px;
             padding: 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             max-height: 90vh;
@@ -357,10 +410,6 @@
             font-size: 1.5rem;
             cursor: pointer;
             line-height: 1;
-        }
-
-        .modal-close:hover {
-            color: var(--text-main);
         }
 
         .form-group {
@@ -429,6 +478,38 @@
             background: var(--primary-hover);
         }
 
+        /* INVOICE CARD STYLES */
+        .invoice-box {
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--card-border);
+            font-size: 0.92rem;
+        }
+
+        .invoice-row:last-child {
+            border-bottom: none;
+        }
+
+        .invoice-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            padding-top: 12px;
+            margin-top: 8px;
+            border-top: 2px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+        }
+
         /* Toast notification */
         #toast {
             position: fixed;
@@ -451,15 +532,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        footer {
-            border-top: 1px solid var(--card-border);
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 2rem;
-        }
     </style>
 </head>
 <body>
@@ -469,25 +541,30 @@
             <div class="logo-icon">🏨</div>
             <div class="logo-title">
                 <h1>Hotel Management Dashboard</h1>
-                <p>Hệ Thống Quản Lý Khách Sạn - Kiểm Thử Trực Tiếp CRUD</p>
+                <p>Hệ Thống Quản Lý Khách Sạn - Quản Lý & Thống Kê</p>
             </div>
         </div>
 
-        <a href="/swagger-ui.html" target="_blank" class="swagger-link">
-            📖 OpenAPI / Swagger Docs
-        </a>
+        <div class="header-user-info">
+            <div class="user-badge" id="currentUserBadge">
+                <span>👤 Đang tải...</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">🚪 Đăng Xuất</button>
+        </div>
     </header>
 
     <div class="container">
         <!-- NAV TABS -->
         <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab(event, 'rooms')">🏨 Danh Sách Phòng (/api/phong)</button>
-            <button class="tab-btn" onclick="switchTab(event, 'roomtypes')">🏷️ Loại Phòng (/api/room-types)</button>
-            <button class="tab-btn" onclick="switchTab(event, 'customers')">👤 Khách Hàng (/api/customers)</button>
-            <button class="tab-btn" onclick="switchTab(event, 'bookings')">📅 Đặt Phòng (/api/bookings)</button>
-            <button class="tab-btn" onclick="switchTab(event, 'services')">🛎️ Dịch Vụ (/api/services)</button>
-            <button class="tab-btn" onclick="switchTab(event, 'payments')">💳 Thanh Toán (/api/payments)</button>
-            <button class="tab-btn" onclick="switchTab(event, 'users')">🔑 Người Dùng (/api/users)</button>
+            <button class="tab-btn active" onclick="switchTab(event, 'rooms')">🏨 Danh Sách Phòng</button>
+            <button class="tab-btn" onclick="switchTab(event, 'roomtypes')">🏷️ Loại Phòng</button>
+            <button class="tab-btn" onclick="switchTab(event, 'customers')">👤 Khách Hàng</button>
+            <button class="tab-btn" onclick="switchTab(event, 'bookings')">📅 Đặt Phòng</button>
+            <button class="tab-btn" onclick="switchTab(event, 'bookingservices')">🛎️ Chi Tiết Dịch Vụ</button>
+            <button class="tab-btn" onclick="switchTab(event, 'services')">📦 Dịch Vụ Khách Sạn</button>
+            <button class="tab-btn" onclick="switchTab(event, 'payments')">💳 Thanh Toán</button>
+            <button class="tab-btn admin-only" id="usersTabBtn" onclick="switchTab(event, 'users')">🔑 Tài Khoản hệ thống</button>
+            <button class="tab-btn admin-only" id="revenueTabBtn" onclick="switchTab(event, 'revenue')">📊 Doanh Thu & Thống Kê</button>
         </div>
 
         <!-- 1. PHÒNG -->
@@ -507,7 +584,7 @@
                             <th>Số Phòng</th>
                             <th>Tầng</th>
                             <th>Trạng Thái</th>
-                            <th>Loại Phòng</th>
+                            <th>Loại Phòng & Giá</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
@@ -533,7 +610,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Tên Loại Phòng</th>
-                            <th>Giá Phòng (VNĐ)</th>
+                            <th>Giá Phòng (VNĐ / Đêm)</th>
                             <th>Sức Chứa (Người)</th>
                             <th>Mô Tả</th>
                             <th>Chức năng</th>
@@ -589,28 +666,59 @@
                     <thead>
                         <tr>
                             <th>ID Đặt</th>
-                            <th>Khách Hàng</th>
+                            <th>Tên Người Đặt</th>
                             <th>Số Phòng</th>
+                            <th>Trạng Thái Phòng</th>
                             <th>Ngày Nhận</th>
                             <th>Ngày Trả</th>
                             <th>Số Khách</th>
-                            <th>Trạng Thái</th>
+                            <th>Trạng Thái Đặt</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody id="bookings-tbody">
+                        <tr><td colspan="9" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5. CHI TIẾT DỊCH VỤ ĐẶT PHÒNG (BOOKING SERVICES) -->
+        <div id="bookingservices" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">Danh Sách Chi Tiết Dịch Vụ Đặt Phòng</div>
+                <div class="header-actions">
+                    <button class="btn-add" onclick="openAddBookingServiceModal()">➕ Thêm dịch vụ cho đơn</button>
+                    <button class="btn-refresh" onclick="loadBookingServices()">🔄 Làm mới</button>
+                </div>
+            </div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã Đặt Phòng</th>
+                            <th>Khách Hàng</th>
+                            <th>Tên Dịch Vụ</th>
+                            <th>Đơn Giá</th>
+                            <th>Số Lượng</th>
+                            <th>Thành Tiền</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingservices-tbody">
                         <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 5. DỊCH VỤ -->
+        <!-- 6. DỊCH VỤ KHÁCH SẠN -->
         <div id="services" class="tab-content">
             <div class="section-header">
                 <div class="section-title">Danh Sách Dịch Vụ Khách Sạn</div>
                 <div class="header-actions">
-                    <button class="btn-add" onclick="openAddServiceModal()">➕ Thêm dịch vụ</button>
+                    <button class="btn-add" onclick="openAddServiceModal()">➕ Thêm dịch vụ mới</button>
                     <button class="btn-refresh" onclick="loadServices()">🔄 Làm mới</button>
                 </div>
             </div>
@@ -632,7 +740,7 @@
             </div>
         </div>
 
-        <!-- 6. THANH TOÁN -->
+        <!-- 7. THANH TOÁN -->
         <div id="payments" class="tab-content">
             <div class="section-header">
                 <div class="section-title">Lịch Sử Thanh Toán</div>
@@ -646,8 +754,9 @@
                     <thead>
                         <tr>
                             <th>ID Giao Dịch</th>
-                            <th>ID Đặt Phòng</th>
-                            <th>Số Tiền</th>
+                            <th>Mã Đặt Phòng</th>
+                            <th>Tên Khách Hàng</th>
+                            <th>Số Tiền (VNĐ)</th>
                             <th>Phương Thức</th>
                             <th>Ngày Thanh Toán</th>
                             <th>Trạng Thái</th>
@@ -655,18 +764,18 @@
                         </tr>
                     </thead>
                     <tbody id="payments-tbody">
-                        <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
+                        <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Đang tải dữ liệu...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 7. NGƯỜI DÙNG -->
+        <!-- 8. NGƯỜI DÙNG (CHỈ ADMIN) -->
         <div id="users" class="tab-content">
             <div class="section-header">
-                <div class="section-title">Danh Sách Tài Khoản Hệ Thống</div>
+                <div class="section-title">Danh Sách Tài Khoản Hệ Thống (Lễ Tân / Admin)</div>
                 <div class="header-actions">
-                    <button class="btn-add" onclick="openAddUserModal()">➕ Thêm tài khoản</button>
+                    <button class="btn-add" onclick="openAddUserModal()">➕ Thêm tài khoản Lễ tân / Admin</button>
                     <button class="btn-refresh" onclick="loadUsers()">🔄 Làm mới</button>
                 </div>
             </div>
@@ -687,6 +796,110 @@
                 </table>
             </div>
         </div>
+
+        <!-- 9. DOANH THU & THỐNG KÊ (CHỈ ADMIN THẤY) -->
+        <div id="revenue" class="tab-content">
+            <div class="section-header">
+                <div class="section-title">📊 Thống Kê Doanh Thu Khách Sạn (Chỉ Admin)</div>
+                <div class="header-actions">
+                    <button class="btn-refresh" onclick="loadRevenueReport()">🔄 Cập nhật số liệu</button>
+                </div>
+            </div>
+
+            <!-- BỘ LỌC NGÀY THÁNG -->
+            <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                <div style="font-weight: 600; color: var(--text-main);">📅 Lọc số liệu doanh thu:</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">Từ ngày:</label>
+                    <input type="date" id="revenueStartDate" class="form-control" style="width: auto; padding: 6px 12px;" onchange="filterRevenueByDate()">
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label style="font-size: 0.85rem; color: var(--text-muted);">Đến ngày:</label>
+                    <input type="date" id="revenueEndDate" class="form-control" style="width: auto; padding: 6px 12px;" onchange="filterRevenueByDate()">
+                </div>
+                <button class="btn-action btn-edit" style="padding: 8px 16px;" onclick="resetRevenueFilter()">Tất cả</button>
+                <button class="btn-action btn-invoice" style="padding: 8px 16px;" onclick="filterRevenueToday()">Hôm nay</button>
+            </div>
+
+            <!-- THỐNG KÊ TỔNG QUAN -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green);">💰</div>
+                    <div class="stat-info">
+                        <h4>TỔNG DOANH THU (ĐÃ THU)</h4>
+                        <div class="value" id="statTotalRevenue">0 VNĐ</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">📅</div>
+                    <div class="stat-info">
+                        <h4>DOANH THU HÔM NAY</h4>
+                        <div class="value" id="statTodayRevenue">0 VNĐ</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">🏆</div>
+                    <div class="stat-info">
+                        <h4>NGÀY CAO NHẤT</h4>
+                        <div class="value" id="statPeakDay" style="font-size: 1.1rem;">Chưa có</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple);">🏨</div>
+                    <div class="stat-info">
+                        <h4>TỔNG ĐƠN ĐÃ THU</h4>
+                        <div class="value" id="statPaidCount">0 đơn</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BẢNG THỐNG KÊ GOM THEO NGÀY (USER REQUESTED TABLE) -->
+            <div class="section-title" style="margin-bottom: 1rem; color: var(--accent-green);">📈 Bảng Thống Kê Tổng Số Tiền Kiếm Được Gom Theo Ngày</div>
+            <div class="table-card" style="margin-bottom: 2rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ngày Giao Dịch</th>
+                            <th>Số Lượng Đơn</th>
+                            <th>Tiền Mặt (CASH)</th>
+                            <th>Chuyển Khoản (BANKING)</th>
+                            <th>Quẹt Thẻ (CARD)</th>
+                            <th>TỔNG DOANH THU NGÀY ĐÓ</th>
+                            <th>Danh Sách Khách Hàng & Phòng Trong Ngày</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daily-revenue-tbody">
+                        <tr><td colspan="7" style="text-align:center;">Đang tính toán số liệu doanh thu theo ngày...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- BẢNG CHI TIẾT CÁC GIAO DỊCH -->
+            <div class="section-title" style="margin-bottom: 1rem;">🧾 Chi Tiết Các Giao Dịch Thanh Toán Cụ Thể</div>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã GD</th>
+                            <th>Mã Đặt</th>
+                            <th>Khách Hàng</th>
+                            <th>Số Phòng</th>
+                            <th>Số Tiền</th>
+                            <th>Phương Thức</th>
+                            <th>Ngày Thanh Toán</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="revenue-tbody">
+                        <tr><td colspan="8" style="text-align:center;">Đang tính toán...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <!-- MODAL PHÒNG -->
@@ -699,24 +912,24 @@
             <form id="roomForm" onsubmit="saveRoom(event)">
                 <input type="hidden" id="roomId">
                 <div class="form-group">
-                    <label>Số Phòng *</label>
-                    <input type="text" id="roomNumber" class="form-control" required placeholder="Ví dụ: P101">
+                    <label>Số Phòng</label>
+                    <input type="text" id="roomNumber" class="form-control" placeholder="VD: 101" required>
                 </div>
                 <div class="form-group">
-                    <label>Tầng *</label>
-                    <input type="text" id="roomFloor" class="form-control" required placeholder="Ví dụ: 1">
+                    <label>Tầng</label>
+                    <input type="text" id="floor" class="form-control" placeholder="VD: 1" required>
                 </div>
                 <div class="form-group">
                     <label>Trạng Thái</label>
-                    <select id="roomStatus" class="form-control">
-                        <option value="Trống">Trống</option>
-                        <option value="Đã đặt">Đã đặt</option>
-                        <option value="Bảo trì">Bảo trì</option>
+                    <select id="roomStatus" class="form-control" required>
+                        <option value="AVAILABLE">Trống (AVAILABLE)</option>
+                        <option value="OCCUPIED">Đang có khách (OCCUPIED)</option>
+                        <option value="MAINTENANCE">Bảo trì (MAINTENANCE)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Loại Phòng</label>
-                    <select id="roomTypeId" class="form-control">
+                    <select id="roomTypeId" class="form-control" required>
                         <option value="">-- Chọn Loại Phòng --</option>
                     </select>
                 </div>
@@ -738,20 +951,20 @@
             <form id="roomTypeForm" onsubmit="saveRoomType(event)">
                 <input type="hidden" id="roomTypeIdInput">
                 <div class="form-group">
-                    <label>Tên Loại Phòng *</label>
-                    <input type="text" id="typeName" class="form-control" required placeholder="Ví dụ: Phòng VIP Single">
+                    <label>Tên Loại Phòng</label>
+                    <input type="text" id="typeName" class="form-control" placeholder="VD: Phòng Đơn VIP" required>
                 </div>
                 <div class="form-group">
-                    <label>Giá Phòng (VNĐ) *</label>
-                    <input type="number" step="1000" id="price" class="form-control" required placeholder="Ví dụ: 500000">
+                    <label>Giá Phòng (VNĐ / Đêm)</label>
+                    <input type="number" id="price" class="form-control" placeholder="VD: 500000" required>
                 </div>
                 <div class="form-group">
-                    <label>Sức Chứa (Người) *</label>
-                    <input type="number" id="capacity" class="form-control" required placeholder="Ví dụ: 2">
+                    <label>Sức Chứa (Người)</label>
+                    <input type="number" id="capacity" class="form-control" placeholder="VD: 2" required>
                 </div>
                 <div class="form-group">
                     <label>Mô Tả</label>
-                    <textarea id="roomTypeDescription" class="form-control" placeholder="Mô tả chi tiết phòng..."></textarea>
+                    <textarea id="roomTypeDescription" class="form-control" placeholder="Mô tả loại phòng"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal('roomTypeModal')">Hủy</button>
@@ -771,24 +984,24 @@
             <form id="customerForm" onsubmit="saveCustomer(event)">
                 <input type="hidden" id="customerId">
                 <div class="form-group">
-                    <label>Họ và Tên *</label>
-                    <input type="text" id="customerFullName" class="form-control" required placeholder="Ví dụ: Nguyễn Văn A">
+                    <label>Họ và Tên</label>
+                    <input type="text" id="customerFullName" class="form-control" placeholder="VD: Nguyễn Văn A" required>
                 </div>
                 <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" id="customerEmail" class="form-control" required placeholder="nguyenvana@gmail.com">
+                    <label>Email</label>
+                    <input type="email" id="customerEmail" class="form-control" placeholder="nguyenvana@gmail.com" required>
                 </div>
                 <div class="form-group">
-                    <label>Số Điện Thoại *</label>
-                    <input type="text" id="customerPhone" class="form-control" required placeholder="0901234567">
+                    <label>Số Điện Thoại</label>
+                    <input type="text" id="customerPhone" class="form-control" placeholder="0901234567" required>
                 </div>
                 <div class="form-group">
-                    <label>Số CCCD / CMND *</label>
-                    <input type="text" id="customerIdentity" class="form-control" required placeholder="012345678901">
+                    <label>Số CCCD / CMND</label>
+                    <input type="text" id="customerIdentity" class="form-control" placeholder="001099123456" required>
                 </div>
                 <div class="form-group">
                     <label>Địa Chỉ</label>
-                    <input type="text" id="customerAddress" class="form-control" placeholder="Hà Nội, Việt Nam">
+                    <input type="text" id="customerAddress" class="form-control" placeholder="Hà Nội">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal('customerModal')">Hủy</button>
@@ -808,37 +1021,36 @@
             <form id="bookingForm" onsubmit="saveBooking(event)">
                 <input type="hidden" id="bookingId">
                 <div class="form-group">
-                    <label>Khách Hàng *</label>
+                    <label>Khách Hàng</label>
                     <select id="bookingCustomerId" class="form-control" required>
                         <option value="">-- Chọn Khách Hàng --</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Phòng *</label>
+                    <label>Phòng</label>
                     <select id="bookingRoomId" class="form-control" required>
                         <option value="">-- Chọn Phòng --</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Ngày Nhận *</label>
+                    <label>Ngày Nhận Phòng (Check-in)</label>
                     <input type="date" id="checkInDate" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label>Ngày Trả *</label>
+                    <label>Ngày Trả Phòng (Check-out)</label>
                     <input type="date" id="checkOutDate" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label>Số Khách *</label>
-                    <input type="number" id="numberOfGuests" class="form-control" required value="1" min="1">
+                    <label>Số Lượng Khách</label>
+                    <input type="number" id="numberOfGuests" class="form-control" min="1" value="1" required>
                 </div>
                 <div class="form-group">
-                    <label>Trạng Thái</label>
-                    <select id="bookingStatus" class="form-control">
-                        <option value="Đang chờ">Đang chờ</option>
-                        <option value="Đã xác nhận">Đã xác nhận</option>
-                        <option value="Đã nhận phòng">Đã nhận phòng</option>
-                        <option value="Đã trả phòng">Đã trả phòng</option>
-                        <option value="Đã hủy">Đã hủy</option>
+                    <label>Trạng Thái Đặt Phòng</label>
+                    <select id="bookingStatus" class="form-control" required>
+                        <option value="CONFIRMED">Đã xác nhận (CONFIRMED)</option>
+                        <option value="CHECKED_IN">Đã nhận phòng (CHECKED_IN)</option>
+                        <option value="CHECKED_OUT">Đã trả phòng (CHECKED_OUT)</option>
+                        <option value="CANCELLED">Đã hủy (CANCELLED)</option>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -849,7 +1061,40 @@
         </div>
     </div>
 
-    <!-- MODAL DỊCH VỤ -->
+    <!-- MODAL CHI TIẾT DỊCH VỤ (BOOKING SERVICE) -->
+    <div id="bookingServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="bsModalTitle">Thêm Dịch Vụ Cho Đơn Đặt Phòng</div>
+                <button class="modal-close" onclick="closeModal('bookingServiceModal')">&times;</button>
+            </div>
+            <form id="bsForm" onsubmit="saveBookingService(event)">
+                <input type="hidden" id="bsId">
+                <div class="form-group">
+                    <label>Đơn Đặt Phòng</label>
+                    <select id="bsBookingId" class="form-control" required>
+                        <option value="">-- Chọn Đơn Đặt Phòng --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Dịch Vụ Khách Sạn</label>
+                    <select id="bsServiceId" class="form-control" required>
+                        <option value="">-- Chọn Dịch Vụ --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Số Lượng Sử Dụng</label>
+                    <input type="number" id="bsQuantity" class="form-control" min="1" value="1" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('bookingServiceModal')">Hủy</button>
+                    <button type="submit" class="btn-save">Lưu lại</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DỊCH VỤ KHÁCH SẠN -->
     <div id="serviceModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -859,16 +1104,16 @@
             <form id="serviceForm" onsubmit="saveService(event)">
                 <input type="hidden" id="serviceId">
                 <div class="form-group">
-                    <label>Tên Dịch Vụ *</label>
-                    <input type="text" id="serviceName" class="form-control" required placeholder="Ví dụ: Giặt ủi cao cấp">
+                    <label>Tên Dịch Vụ</label>
+                    <input type="text" id="serviceName" class="form-control" placeholder="VD: Giặt ủi" required>
                 </div>
                 <div class="form-group">
-                    <label>Đơn Giá (VNĐ) *</label>
-                    <input type="number" step="1000" id="servicePrice" class="form-control" required placeholder="Ví dụ: 50000">
+                    <label>Đơn Giá (VNĐ)</label>
+                    <input type="number" id="servicePrice" class="form-control" placeholder="50000" required>
                 </div>
                 <div class="form-group">
                     <label>Mô Tả</label>
-                    <textarea id="serviceDescription" class="form-control" placeholder="Mô tả dịch vụ..."></textarea>
+                    <textarea id="serviceDescription" class="form-control" placeholder="Mô tả dịch vụ"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal('serviceModal')">Hủy</button>
@@ -888,33 +1133,32 @@
             <form id="paymentForm" onsubmit="savePayment(event)">
                 <input type="hidden" id="paymentId">
                 <div class="form-group">
-                    <label>Đơn Đặt Phòng (ID) *</label>
+                    <label>Đơn Đặt Phòng</label>
                     <select id="paymentBookingId" class="form-control" required>
                         <option value="">-- Chọn Đơn Đặt Phòng --</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Số Tiền (VNĐ) *</label>
-                    <input type="number" step="1000" id="paymentAmount" class="form-control" required placeholder="Ví dụ: 1200000">
+                    <label>Số Tiền Thanh Toán (VNĐ)</label>
+                    <input type="number" id="paymentAmount" class="form-control" placeholder="VD: 1500000" required>
                 </div>
                 <div class="form-group">
-                    <label>Phương Thức Thanh Toán *</label>
-                    <select id="paymentMethod" class="form-control">
-                        <option value="Tiền mặt">Tiền mặt</option>
-                        <option value="Chuyển khoản">Chuyển khoản</option>
-                        <option value="Thẻ tín dụng">Thẻ tín dụng</option>
+                    <label>Phương Thức Thanh Toán</label>
+                    <select id="paymentMethod" class="form-control" required>
+                        <option value="CASH">Tiền mặt (CASH)</option>
+                        <option value="BANKING">Chuyển khoản (BANKING)</option>
+                        <option value="CARD">Quẹt thẻ (CARD)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Ngày Thanh Toán *</label>
+                    <label>Ngày Thanh Toán</label>
                     <input type="date" id="paymentDate" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label>Trạng Thái Thanh Toán</label>
-                    <select id="paymentStatus" class="form-control">
-                        <option value="Đã thanh toán">Đã thanh toán</option>
-                        <option value="Chưa thanh toán">Chưa thanh toán</option>
-                        <option value="Đã hoàn tiền">Đã hoàn tiền</option>
+                    <select id="paymentStatus" class="form-control" required>
+                        <option value="PAID">Đã thanh toán (PAID)</option>
+                        <option value="UNPAID">Chưa thanh toán (UNPAID)</option>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -925,7 +1169,24 @@
         </div>
     </div>
 
-    <!-- MODAL NGƯỜI DÙNG -->
+    <!-- MODAL HÓA ĐƠN XEM VÀ XÁC NHẬN THANH TOÁN (INVOICE) -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-header">
+                <div class="modal-title">🧾 Hóa Đơn & Tính Tiền Đặt Phòng</div>
+                <button class="modal-close" onclick="closeModal('invoiceModal')">&times;</button>
+            </div>
+            <div id="invoiceBody">
+                <div style="text-align:center; padding: 2rem;">Đang tính toán hóa đơn...</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeModal('invoiceModal')">Đóng</button>
+                <button type="button" id="btnConfirmPay" class="btn-save" style="background: var(--accent-green);" onclick="confirmCheckoutPayment()">✅ Xác Nhận Thanh Toán</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TÀI KHOẢN NGƯỜI DÙNG (CHỈ ADMIN) -->
     <div id="userModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -935,110 +1196,148 @@
             <form id="userForm" onsubmit="saveUser(event)">
                 <input type="hidden" id="userId">
                 <div class="form-group">
-                    <label>Tên Đăng Nhập *</label>
-                    <input type="text" id="username" class="form-control" required placeholder="admin">
+                    <label>Tên Đăng Nhập</label>
+                    <input type="text" id="username" class="form-control" placeholder="receptionist01" required>
                 </div>
                 <div class="form-group">
-                    <label>Mật Khẩu *</label>
-                    <input type="password" id="userPassword" class="form-control" required placeholder="******">
+                    <label>Mật Khẩu</label>
+                    <input type="password" id="userPassword" class="form-control" placeholder="123456" required>
                 </div>
                 <div class="form-group">
-                    <label>Họ và Tên *</label>
-                    <input type="text" id="userFullName" class="form-control" required placeholder="Quản trị viên">
+                    <label>Họ và Tên Nhân Viên</label>
+                    <input type="text" id="userFullName" class="form-control" placeholder="Nguyễn Văn B" required>
                 </div>
                 <div class="form-group">
-                    <label>Vai Trò (Role) *</label>
-                    <select id="userRole" class="form-control">
-                        <option value="ADMIN">ADMIN</option>
-                        <option value="STAFF">STAFF</option>
-                        <option value="MANAGER">MANAGER</option>
+                    <label>Vai Trò (Role)</label>
+                    <select id="userRole" class="form-control" required>
+                        <option value="RECEPTIONIST">Lễ Tân (RECEPTIONIST)</option>
+                        <option value="ADMIN">Quản Trị Viên (ADMIN)</option>
+                        <option value="MANAGER">Quản Lý (MANAGER)</option>
+                        <option value="STAFF">Nhân Viên (STAFF)</option>
                     </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal('userModal')">Hủy</button>
-                    <button type="submit" class="btn-save">Lưu lại</button>
+                    <button type="submit" class="btn-save">Lưu tài khoản</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast">
-        <span id="toastIcon">✅</span>
-        <span id="toastMessage">Thao tác thành công!</span>
-    </div>
-
-    <footer>
-        Dự án Quản Lý Khách Sạn - Spring Boot REST API & MySQL Database Dashboard
-    </footer>
+    <div id="toast">🔔 Notification</div>
 
     <script>
-        // Utilities & Helper Functions
-        function switchTab(evt, tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        let currentUser = null;
+        let activeInvoiceBooking = null;
+        let allPaymentsData = [];
 
-            evt.currentTarget.classList.add('active');
+        // HELPER HÀM ĐỊNH DẠNG SẠCH TRÁNH LẶP TỪ ("Tầng Tầng 1" -> "Tầng 1", "Phòng Phòng 101" -> "Phòng 101")
+        function formatFloor(floor) {
+            if (!floor) return 'N/A';
+            let str = String(floor).replace(/^(Tầng\s*)+/gi, '').trim();
+            return `Tầng ${str}`;
+        }
+
+        function formatRoomNumber(num) {
+            if (!num) return 'N/A';
+            let str = String(num).replace(/^(Phòng\s*)+/gi, '').trim();
+            return `Phòng ${str}`;
+        }
+
+        function formatBookingId(id) {
+            if (!id) return 'N/A';
+            let str = String(id).replace(/^(#|Đơn\s*#?)+/gi, '').trim();
+            return `#${str}`;
+        }
+
+        function formatCurrency(amount) {
+            if (amount == null) return "0 VNĐ";
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        }
+
+        function roomStatusBadge(status) {
+            if (status === 'AVAILABLE' || status === 'Trống') return '<span class="badge badge-success">Trống</span>';
+            if (status === 'OCCUPIED' || status === 'Đang ở') return '<span class="badge badge-warning">Đang có khách</span>';
+            if (status === 'MAINTENANCE' || status === 'Bảo trì') return '<span class="badge badge-danger">Bảo trì</span>';
+            return `<span class="badge badge-info">${status || 'Chưa rõ'}</span>`;
+        }
+
+        function bookingBadgeClass(status) {
+            if (status === 'CONFIRMED' || status === 'Đã xác nhận') return 'badge-info';
+            if (status === 'CHECKED_IN' || status === 'Đã nhận phòng') return 'badge-warning';
+            if (status === 'CHECKED_OUT' || status === 'Đã trả phòng') return 'badge-success';
+            return 'badge-danger';
+        }
+
+        // KIỂM TRA ĐĂNG NHẬP & PHÂN QUYỀN CHẶT CHẼ CHỈ ADMIN XEM DOANH THU & NGƯỜI DÙNG
+        window.addEventListener('DOMContentLoaded', () => {
+            const userStr = sessionStorage.getItem("currentUser");
+            if (!userStr) {
+                window.location.href = "/login";
+                return;
+            }
+            currentUser = JSON.parse(userStr);
+
+            const badge = document.getElementById("currentUserBadge");
+            const roleBadgeClass = currentUser.role === 'ADMIN' ? 'badge-danger' : 'badge-info';
+            badge.innerHTML = `<span>👤 ${currentUser.fullName}</span> <span class="badge ${roleBadgeClass}">${currentUser.role}</span>`;
+
+            // Nếu không phải ADMIN hoặc MANAGER, ẩn hoàn toàn các tab admin
+            if (currentUser.role !== 'ADMIN' && currentUser.role !== 'MANAGER') {
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+            }
+
+            loadRooms();
+        });
+
+        function logout() {
+            sessionStorage.removeItem("currentUser");
+            window.location.href = "/login";
+        }
+
+        function switchTab(evt, tabId) {
+            // Bảo vệ bằng phân quyền: Lễ tân không thể chuyển vào tab users hoặc revenue
+            if ((tabId === 'users' || tabId === 'revenue') && (currentUser.role !== 'ADMIN' && currentUser.role !== 'MANAGER')) {
+                showToast("Bạn không có quyền truy cập chức năng Admin này!", true);
+                return;
+            }
+
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
             document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
 
             if (tabId === 'rooms') loadRooms();
-            if (tabId === 'roomtypes') loadRoomTypes();
-            if (tabId === 'customers') loadCustomers();
-            if (tabId === 'bookings') loadBookings();
-            if (tabId === 'services') loadServices();
-            if (tabId === 'payments') loadPayments();
-            if (tabId === 'users') loadUsers();
+            else if (tabId === 'roomtypes') loadRoomTypes();
+            else if (tabId === 'customers') loadCustomers();
+            else if (tabId === 'bookings') loadBookings();
+            else if (tabId === 'bookingservices') loadBookingServices();
+            else if (tabId === 'services') loadServices();
+            else if (tabId === 'payments') loadPayments();
+            else if (tabId === 'users') loadUsers();
+            else if (tabId === 'revenue') loadRevenueReport();
         }
 
-        function formatCurrency(val) {
-            if (val === null || val === undefined) return '0 VNĐ';
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
-        }
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        function formatFloor(floor) {
-            if (!floor) return '';
-            const cleanStr = String(floor).replace(/^(tầng\s*)+/gi, '').trim();
-            return `Tầng ${cleanStr}`;
-        }
-
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toastIcon');
-            const msg = document.getElementById('toastMessage');
-
-            icon.innerText = isError ? '❌' : '✅';
-            msg.innerText = message;
-            toast.style.borderColor = isError ? 'var(--accent-rose)' : 'var(--accent-green)';
-            toast.style.display = 'flex';
-
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
-        }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById("toast");
+            toast.innerText = (isError ? "❌ " : "✅ ") + msg;
+            toast.style.borderColor = isError ? "var(--accent-rose)" : "var(--accent-green)";
+            toast.style.display = "flex";
+            setTimeout(() => { toast.style.display = "none"; }, 3000);
         }
 
         async function fetchAPI(url, options = {}) {
             try {
                 const res = await fetch(url, options);
-                if (!res.ok) {
-                    const text = await res.text();
-                    console.error("API error:", url, res.status, text);
-                    return null;
-                }
-                const contentType = res.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
-                    return await res.json();
-                }
-                return true;
+                if (!res.ok) throw new Error("API error: " + res.statusText);
+                if (res.status === 204) return true;
+                return await res.json();
             } catch (err) {
-                console.error("Fetch error:", url, err);
+                console.error("fetchAPI Exception:", err);
                 return null;
             }
         }
@@ -1050,34 +1349,32 @@
             const data = await fetchAPI("/api/phong");
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Không có dữ liệu phòng</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Không có phòng nào</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = data.map(r => `
                 <tr>
                     <td>${r.id}</td>
-                    <td><strong>${r.roomNumber}</strong></td>
+                    <td><strong>${formatRoomNumber(r.roomNumber)}</strong></td>
                     <td>${formatFloor(r.floor)}</td>
-                    <td><span class="badge ${r.status === 'Trống' ? 'badge-success' : r.status === 'Đã đặt' ? 'badge-warning' : 'badge-danger'}">${r.status}</span></td>
-                    <td>${r.roomType ? r.roomType.typeName : '<span style="color:var(--text-muted)">Chưa gán</span>'}</td>
+                    <td>${roomStatusBadge(r.status)}</td>
+                    <td>${r.roomType ? `<strong>${r.roomType.typeName}</strong> (${formatCurrency(r.roomType.price)})` : 'N/A'}</td>
                     <td>
-                        <button class="btn-edit" onclick="openEditRoomModal(${r.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deleteRoom(${r.id})">🗑️ Xóa</button>
+                        <button class="btn-action btn-edit" onclick="openEditRoomModal(${r.id})">✏️ Sửa</button>
+                        <button class="btn-action btn-delete" onclick="deleteRoom(${r.id})">🗑️ Xóa</button>
                     </td>
                 </tr>
             `).join("");
         }
 
-        async function loadRoomTypeOptions(selectElementId, selectedId = null) {
-            const select = document.getElementById(selectElementId);
+        async function loadRoomTypeOptions(selectId, selectedId = null) {
+            const select = document.getElementById(selectId);
             const data = await fetchAPI("/api/room-types");
             if (data && data.length > 0) {
                 select.innerHTML = `<option value="">-- Chọn Loại Phòng --</option>` + data.map(rt => `
-                    <option value="${rt.id}" ${selectedId == rt.id ? 'selected' : ''}>${rt.typeName} (${formatCurrency(rt.price)})</option>
+                    <option value="${rt.id}" ${selectedId == rt.id ? 'selected' : ''}>${rt.typeName} (${formatCurrency(rt.price)}/đêm)</option>
                 `).join("");
-            } else {
-                select.innerHTML = `<option value="">-- Không có loại phòng --</option>`;
             }
         }
 
@@ -1090,25 +1387,22 @@
         }
 
         async function openEditRoomModal(id) {
-            const room = await fetchAPI(`/api/phong/${id}`);
-            if (!room) {
-                showToast("Không thể tải thông tin phòng!", true);
-                return;
-            }
-            document.getElementById("roomId").value = room.id;
-            document.getElementById("roomNumber").value = room.roomNumber;
-            document.getElementById("roomFloor").value = room.floor;
-            document.getElementById("roomStatus").value = room.status;
-            document.getElementById("roomModalTitle").innerText = `Sửa Phòng (ID: ${room.id})`;
-            await loadRoomTypeOptions("roomTypeId", room.roomType ? room.roomType.id : null);
+            const r = await fetchAPI(`/api/phong/${id}`);
+            if (!r) { showToast("Không tải được dữ liệu phòng!", true); return; }
+            document.getElementById("roomId").value = r.id;
+            document.getElementById("roomNumber").value = String(r.roomNumber).replace(/^(Phòng\s*)+/gi, '').trim();
+            document.getElementById("floor").value = String(r.floor).replace(/^(Tầng\s*)+/gi, '').trim();
+            document.getElementById("roomStatus").value = r.status || 'AVAILABLE';
+            await loadRoomTypeOptions("roomTypeId", r.roomType ? r.roomType.id : null);
+            document.getElementById("roomModalTitle").innerText = `Sửa ${formatRoomNumber(r.roomNumber)}`;
             openModal("roomModal");
         }
 
         async function saveRoom(e) {
             e.preventDefault();
             const id = document.getElementById("roomId").value;
-            const roomNumber = document.getElementById("roomNumber").value;
-            const floor = document.getElementById("roomFloor").value;
+            const roomNumber = document.getElementById("roomNumber").value.replace(/^(Phòng\s*)+/gi, '').trim();
+            const floor = document.getElementById("floor").value.replace(/^(Tầng\s*)+/gi, '').trim();
             const status = document.getElementById("roomStatus").value;
             const roomTypeId = document.getElementById("roomTypeId").value;
 
@@ -1129,23 +1423,19 @@
             });
 
             if (res) {
-                showToast(id ? "Cập nhật phòng thành công!" : "Thêm phòng mới thành công!");
+                showToast(id ? "Cập nhật phòng thành công!" : "Thêm phòng thành công!");
                 closeModal("roomModal");
                 loadRooms();
             } else {
-                showToast("Lỗi khi lưu thông tin phòng!", true);
+                showToast("Lỗi khi lưu phòng!", true);
             }
         }
 
         async function deleteRoom(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa phòng ID ${id}?`)) return;
+            if (!confirm(`Bạn có chắc muốn xóa phòng ID ${id}?`)) return;
             const res = await fetchAPI(`/api/phong/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa phòng thành công!");
-                loadRooms();
-            } else {
-                showToast("Không thể xóa phòng!", true);
-            }
+            if (res !== null) { showToast("Đã xóa phòng!"); loadRooms(); }
+            else { showToast("Không thể xóa phòng này!", true); }
         }
 
         // ================= 2. QUẢN LÝ LOẠI PHÒNG (/api/room-types) =================
@@ -1155,7 +1445,7 @@
             const data = await fetchAPI("/api/room-types");
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Không có dữ liệu loại phòng</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Không có loại phòng</td></tr>`;
                 return;
             }
 
@@ -1167,8 +1457,8 @@
                     <td>${rt.capacity} người</td>
                     <td>${rt.description || ''}</td>
                     <td>
-                        <button class="btn-edit" onclick="openEditRoomTypeModal(${rt.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deleteRoomType(${rt.id})">🗑️ Xóa</button>
+                        <button class="btn-action btn-edit" onclick="openEditRoomTypeModal(${rt.id})">✏️ Sửa</button>
+                        <button class="btn-action btn-delete" onclick="deleteRoomType(${rt.id})">🗑️ Xóa</button>
                     </td>
                 </tr>
             `).join("");
@@ -1183,16 +1473,13 @@
 
         async function openEditRoomTypeModal(id) {
             const rt = await fetchAPI(`/api/room-types/${id}`);
-            if (!rt) {
-                showToast("Không thể tải loại phòng!", true);
-                return;
-            }
+            if (!rt) return;
             document.getElementById("roomTypeIdInput").value = rt.id;
             document.getElementById("typeName").value = rt.typeName;
             document.getElementById("price").value = rt.price;
             document.getElementById("capacity").value = rt.capacity;
             document.getElementById("roomTypeDescription").value = rt.description || "";
-            document.getElementById("roomTypeModalTitle").innerText = `Sửa Loại Phòng (ID: ${rt.id})`;
+            document.getElementById("roomTypeModalTitle").innerText = `Sửa Loại Phòng: ${rt.typeName}`;
             openModal("roomTypeModal");
         }
 
@@ -1218,20 +1505,14 @@
                 showToast(id ? "Cập nhật loại phòng thành công!" : "Thêm loại phòng thành công!");
                 closeModal("roomTypeModal");
                 loadRoomTypes();
-            } else {
-                showToast("Lỗi khi lưu loại phòng!", true);
-            }
+            } else { showToast("Lỗi khi lưu loại phòng!", true); }
         }
 
         async function deleteRoomType(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa loại phòng ID ${id}?`)) return;
+            if (!confirm(`Xóa loại phòng ID ${id}?`)) return;
             const res = await fetchAPI(`/api/room-types/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa loại phòng thành công!");
-                loadRoomTypes();
-            } else {
-                showToast("Không thể xóa loại phòng này!", true);
-            }
+            if (res !== null) { showToast("Đã xóa loại phòng!"); loadRoomTypes(); }
+            else { showToast("Không thể xóa loại phòng này!", true); }
         }
 
         // ================= 3. QUẢN LÝ KHÁCH HÀNG (/api/customers) =================
@@ -1254,8 +1535,8 @@
                     <td>${c.identityNumber}</td>
                     <td>${c.address || ''}</td>
                     <td>
-                        <button class="btn-edit" onclick="openEditCustomerModal(${c.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deleteCustomer(${c.id})">🗑️ Xóa</button>
+                        <button class="btn-action btn-edit" onclick="openEditCustomerModal(${c.id})">✏️ Sửa</button>
+                        <button class="btn-action btn-delete" onclick="deleteCustomer(${c.id})">🗑️ Xóa</button>
                     </td>
                 </tr>
             `).join("");
@@ -1270,10 +1551,7 @@
 
         async function openEditCustomerModal(id) {
             const c = await fetchAPI(`/api/customers/${id}`);
-            if (!c) {
-                showToast("Không thể tải dữ liệu khách hàng!", true);
-                return;
-            }
+            if (!c) return;
             document.getElementById("customerId").value = c.id;
             document.getElementById("customerFullName").value = c.fullName;
             document.getElementById("customerEmail").value = c.email;
@@ -1307,59 +1585,50 @@
                 showToast(id ? "Cập nhật khách hàng thành công!" : "Thêm khách hàng thành công!");
                 closeModal("customerModal");
                 loadCustomers();
-            } else {
-                showToast("Lỗi khi lưu khách hàng!", true);
-            }
+            } else { showToast("Lỗi khi lưu khách hàng!", true); }
         }
 
         async function deleteCustomer(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa khách hàng ID ${id}?`)) return;
+            if (!confirm(`Xóa khách hàng ID ${id}?`)) return;
             const res = await fetchAPI(`/api/customers/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa khách hàng thành công!");
-                loadCustomers();
-            } else {
-                showToast("Không thể xóa khách hàng!", true);
-            }
+            if (res !== null) { showToast("Đã xóa khách hàng!"); loadCustomers(); }
+            else { showToast("Không thể xóa khách hàng!", true); }
         }
 
         // ================= 4. QUẢN LÝ ĐẶT PHÒNG (/api/bookings) =================
         async function loadBookings() {
             const tbody = document.getElementById("bookings-tbody");
-            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center;">Đang tải...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align: center;">Đang tải...</td></tr>`;
             const data = await fetchAPI("/api/bookings");
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color: var(--text-muted);">Không có dữ liệu đặt phòng</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color: var(--text-muted);">Không có đơn đặt phòng nào</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = data.map(b => `
-                <tr>
-                    <td>#${b.id}</td>
-                    <td><strong>${b.customer ? b.customer.fullName : 'N/A'}</strong></td>
-                    <td>${b.room ? rBadge(b.room.roomNumber) : 'N/A'}</td>
-                    <td>${b.checkInDate || ''}</td>
-                    <td>${b.checkOutDate || ''}</td>
-                    <td>${b.numberOfGuests} người</td>
-                    <td><span class="badge ${bookingBadgeClass(b.status)}">${b.status}</span></td>
-                    <td>
-                        <button class="btn-edit" onclick="openEditBookingModal(${b.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deleteBooking(${b.id})">🗑️ Xóa</button>
-                    </td>
-                </tr>
-            `).join("");
-        }
+            tbody.innerHTML = data.map(b => {
+                const customerName = b.customer ? b.customer.fullName : '<span style="color:var(--text-muted)">Chưa gán</span>';
+                const roomNum = b.room ? `<span class="badge badge-purple">${formatRoomNumber(b.room.roomNumber)}</span>` : '<span style="color:var(--text-muted)">Chưa xếp</span>';
+                const roomStat = b.room ? roomStatusBadge(b.room.status) : 'N/A';
 
-        function rBadge(num) {
-            return `<span class="badge badge-info">${num}</span>`;
-        }
-
-        function bookingBadgeClass(status) {
-            if (status === 'Đã xác nhận' || status === 'Đã nhận phòng') return 'badge-success';
-            if (status === 'Đang chờ') return 'badge-warning';
-            if (status === 'Đã trả phòng') return 'badge-info';
-            return 'badge-danger';
+                return `
+                    <tr>
+                        <td>${formatBookingId(b.id)}</td>
+                        <td><strong>${customerName}</strong></td>
+                        <td>${roomNum}</td>
+                        <td>${roomStat}</td>
+                        <td>${b.checkInDate || ''}</td>
+                        <td>${b.checkOutDate || ''}</td>
+                        <td>${b.numberOfGuests} người</td>
+                        <td><span class="badge ${bookingBadgeClass(b.status)}">${b.status}</span></td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="openEditBookingModal(${b.id})">✏️ Sửa</button>
+                            <button class="btn-action btn-invoice" onclick="openInvoiceModal(${b.id})">🧾 Hóa đơn</button>
+                            <button class="btn-action btn-delete" onclick="deleteBooking(${b.id})">🗑️ Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
         }
 
         async function loadCustomerOptions(selectId, selectedId = null) {
@@ -1369,8 +1638,6 @@
                 select.innerHTML = `<option value="">-- Chọn Khách Hàng --</option>` + data.map(c => `
                     <option value="${c.id}" ${selectedId == c.id ? 'selected' : ''}>${c.fullName} (${c.phone})</option>
                 `).join("");
-            } else {
-                select.innerHTML = `<option value="">-- Không có khách hàng --</option>`;
             }
         }
 
@@ -1379,10 +1646,8 @@
             const data = await fetchAPI("/api/phong");
             if (data && data.length > 0) {
                 select.innerHTML = `<option value="">-- Chọn Phòng --</option>` + data.map(r => `
-                    <option value="${r.id}" ${selectedId == r.id ? 'selected' : ''}>Phòng ${r.roomNumber} (${formatFloor(r.floor)} - ${r.status})</option>
+                    <option value="${r.id}" ${selectedId == r.id ? 'selected' : ''}>${formatRoomNumber(r.roomNumber)} (${formatFloor(r.floor)} - ${r.status})</option>
                 `).join("");
-            } else {
-                select.innerHTML = `<option value="">-- Không có phòng --</option>`;
             }
         }
 
@@ -1397,19 +1662,15 @@
 
         async function openEditBookingModal(id) {
             const b = await fetchAPI(`/api/bookings/${id}`);
-            if (!b) {
-                showToast("Không thể tải đơn đặt phòng!", true);
-                return;
-            }
+            if (!b) return;
             document.getElementById("bookingId").value = b.id;
             document.getElementById("checkInDate").value = b.checkInDate || "";
             document.getElementById("checkOutDate").value = b.checkOutDate || "";
             document.getElementById("numberOfGuests").value = b.numberOfGuests;
-            document.getElementById("bookingStatus").value = b.status;
-            document.getElementById("bookingModalTitle").innerText = `Sửa Đơn Đặt Phòng (ID: #${b.id})`;
-
+            document.getElementById("bookingStatus").value = b.status || "CONFIRMED";
             await loadCustomerOptions("bookingCustomerId", b.customer ? b.customer.id : null);
             await loadRoomOptions("bookingRoomId", b.room ? b.room.id : null);
+            document.getElementById("bookingModalTitle").innerText = `Sửa Đơn Đặt Phòng ${formatBookingId(b.id)}`;
             openModal("bookingModal");
         }
 
@@ -1442,33 +1703,150 @@
             });
 
             if (res) {
-                showToast(id ? "Cập nhật đặt phòng thành công!" : "Tạo đơn đặt phòng mới thành công!");
+                if (status === 'CHECKED_IN' && roomId) {
+                    const room = await fetchAPI(`/api/phong/${roomId}`);
+                    if (room) {
+                        room.status = 'OCCUPIED';
+                        await fetchAPI(`/api/phong/${roomId}`, {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(room)
+                        });
+                    }
+                }
+                showToast(id ? "Cập nhật đơn thành công!" : "Tạo đơn đặt phòng mới thành công!");
                 closeModal("bookingModal");
                 loadBookings();
-            } else {
-                showToast("Lỗi khi lưu đơn đặt phòng!", true);
-            }
+            } else { showToast("Lỗi khi lưu đơn đặt phòng!", true); }
         }
 
         async function deleteBooking(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa đơn đặt phòng ID #${id}?`)) return;
+            if (!confirm(`Xóa đơn đặt phòng ${formatBookingId(id)}?`)) return;
             const res = await fetchAPI(`/api/bookings/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa đơn đặt phòng thành công!");
-                loadBookings();
-            } else {
-                showToast("Không thể xóa đơn đặt phòng!", true);
+            if (res !== null) { showToast("Đã xóa đơn đặt phòng!"); loadBookings(); }
+            else { showToast("Không thể xóa đơn đặt phòng!", true); }
+        }
+
+        // ================= 5. CHI TIẾT DỊCH VỤ ĐẶT PHÒNG (/api/booking-services) =================
+        async function loadBookingServices() {
+            const tbody = document.getElementById("bookingservices-tbody");
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center;">Đang tải...</td></tr>`;
+            const data = await fetchAPI("/api/booking-services");
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color: var(--text-muted);">Chưa có dịch vụ nào gán cho đơn đặt phòng</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = data.map(bs => {
+                const bookingIdStr = bs.booking ? formatBookingId(bs.booking.id) : 'N/A';
+                const customerStr = (bs.booking && bs.booking.customer) ? bs.booking.customer.fullName : 'N/A';
+                const serviceNameStr = bs.hotelService ? bs.hotelService.serviceName : 'N/A';
+                const price = bs.hotelService ? bs.hotelService.price : 0;
+                const total = price * (bs.quantity || 1);
+
+                return `
+                    <tr>
+                        <td>${bs.id}</td>
+                        <td><strong>${bookingIdStr}</strong></td>
+                        <td>${customerStr}</td>
+                        <td><span class="badge badge-purple">${serviceNameStr}</span></td>
+                        <td>${formatCurrency(price)}</td>
+                        <td>${bs.quantity}</td>
+                        <td><strong>${formatCurrency(total)}</strong></td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="openEditBookingServiceModal(${bs.id})">✏️ Sửa</button>
+                            <button class="btn-action btn-delete" onclick="deleteBookingService(${bs.id})">🗑️ Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        async function loadBookingOptions(selectId, selectedId = null) {
+            const select = document.getElementById(selectId);
+            const data = await fetchAPI("/api/bookings");
+            if (data && data.length > 0) {
+                select.innerHTML = `<option value="">-- Chọn Đơn Đặt Phòng --</option>` + data.map(b => `
+                    <option value="${b.id}" ${selectedId == b.id ? 'selected' : ''}>Đơn ${formatBookingId(b.id)} - ${b.customer ? b.customer.fullName : 'Khách vắng'} (${b.room ? formatRoomNumber(b.room.roomNumber) : ''})</option>
+                `).join("");
             }
         }
 
-        // ================= 5. QUẢN LÝ DỊCH VỤ (/api/services) =================
+        async function loadHotelServiceOptions(selectId, selectedId = null) {
+            const select = document.getElementById(selectId);
+            const data = await fetchAPI("/api/services");
+            if (data && data.length > 0) {
+                select.innerHTML = `<option value="">-- Chọn Dịch Vụ --</option>` + data.map(s => `
+                    <option value="${s.id}" ${selectedId == s.id ? 'selected' : ''}>${s.serviceName} (${formatCurrency(s.price)})</option>
+                `).join("");
+            }
+        }
+
+        async function openAddBookingServiceModal() {
+            document.getElementById("bsForm").reset();
+            document.getElementById("bsId").value = "";
+            document.getElementById("bsModalTitle").innerText = "Thêm Dịch Vụ Cho Đơn Đặt Phòng";
+            await loadBookingOptions("bsBookingId");
+            await loadHotelServiceOptions("bsServiceId");
+            openModal("bookingServiceModal");
+        }
+
+        async function openEditBookingServiceModal(id) {
+            const bs = await fetchAPI(`/api/booking-services/${id}`);
+            if (!bs) return;
+            document.getElementById("bsId").value = bs.id;
+            document.getElementById("bsQuantity").value = bs.quantity || 1;
+            await loadBookingOptions("bsBookingId", bs.booking ? bs.booking.id : null);
+            await loadHotelServiceOptions("bsServiceId", bs.hotelService ? bs.hotelService.id : null);
+            document.getElementById("bsModalTitle").innerText = `Sửa Dịch Vụ Đặt Phòng #${bs.id}`;
+            openModal("bookingServiceModal");
+        }
+
+        async function saveBookingService(e) {
+            e.preventDefault();
+            const id = document.getElementById("bsId").value;
+            const bookingId = document.getElementById("bsBookingId").value;
+            const serviceId = document.getElementById("bsServiceId").value;
+            const quantity = parseInt(document.getElementById("bsQuantity").value);
+
+            const payload = {
+                booking: bookingId ? { id: parseInt(bookingId) } : null,
+                hotelService: serviceId ? { id: parseInt(serviceId) } : null,
+                quantity
+            };
+
+            const url = id ? `/api/booking-services/${id}` : "/api/booking-services";
+            const method = id ? "PUT" : "POST";
+
+            const res = await fetchAPI(url, {
+                method: method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (res) {
+                showToast(id ? "Cập nhật thành công!" : "Thêm dịch vụ cho đơn thành công!");
+                closeModal("bookingServiceModal");
+                loadBookingServices();
+            } else { showToast("Lỗi khi gán dịch vụ!", true); }
+        }
+
+        async function deleteBookingService(id) {
+            if (!confirm(`Xóa dịch vụ gán ID ${id}?`)) return;
+            const res = await fetchAPI(`/api/booking-services/${id}`, { method: "DELETE" });
+            if (res !== null) { showToast("Đã xóa!"); loadBookingServices(); }
+            else { showToast("Không thể xóa!", true); }
+        }
+
+        // ================= 6. DỊCH VỤ KHÁCH SẠN (/api/services) =================
         async function loadServices() {
             const tbody = document.getElementById("services-tbody");
             tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Đang tải...</td></tr>`;
             const data = await fetchAPI("/api/services");
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Không có dữ liệu dịch vụ</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Không có dịch vụ nào</td></tr>`;
                 return;
             }
 
@@ -1479,8 +1857,8 @@
                     <td>${formatCurrency(s.price)}</td>
                     <td>${s.description || ''}</td>
                     <td>
-                        <button class="btn-edit" onclick="openEditServiceModal(${s.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deleteService(${s.id})">🗑️ Xóa</button>
+                        <button class="btn-action btn-edit" onclick="openEditServiceModal(${s.id})">✏️ Sửa</button>
+                        <button class="btn-action btn-delete" onclick="deleteService(${s.id})">🗑️ Xóa</button>
                     </td>
                 </tr>
             `).join("");
@@ -1495,15 +1873,12 @@
 
         async function openEditServiceModal(id) {
             const s = await fetchAPI(`/api/services/${id}`);
-            if (!s) {
-                showToast("Không thể tải dịch vụ!", true);
-                return;
-            }
+            if (!s) return;
             document.getElementById("serviceId").value = s.id;
             document.getElementById("serviceName").value = s.serviceName;
             document.getElementById("servicePrice").value = s.price;
             document.getElementById("serviceDescription").value = s.description || "";
-            document.getElementById("serviceModalTitle").innerText = `Sửa Dịch Vụ (ID: ${s.id})`;
+            document.getElementById("serviceModalTitle").innerText = `Sửa Dịch Vụ: ${s.serviceName}`;
             openModal("serviceModal");
         }
 
@@ -1525,86 +1900,72 @@
             });
 
             if (res) {
-                showToast(id ? "Cập nhật dịch vụ thành công!" : "Thêm dịch vụ mới thành công!");
+                showToast(id ? "Cập nhật dịch vụ thành công!" : "Thêm dịch vụ thành công!");
                 closeModal("serviceModal");
                 loadServices();
-            } else {
-                showToast("Lỗi khi lưu dịch vụ!", true);
-            }
+            } else { showToast("Lỗi khi lưu dịch vụ!", true); }
         }
 
         async function deleteService(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa dịch vụ ID ${id}?`)) return;
+            if (!confirm(`Xóa dịch vụ ID ${id}?`)) return;
             const res = await fetchAPI(`/api/services/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa dịch vụ thành công!");
-                loadServices();
-            } else {
-                showToast("Không thể xóa dịch vụ!", true);
-            }
+            if (res !== null) { showToast("Đã xóa dịch vụ!"); loadServices(); }
+            else { showToast("Không thể xóa dịch vụ này!", true); }
         }
 
-        // ================= 6. QUẢN LÝ THANH TOÁN (/api/payments) =================
+        // ================= 7. QUẢN LÝ THANH TOÁN (/api/payments) =================
         async function loadPayments() {
             const tbody = document.getElementById("payments-tbody");
-            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Đang tải...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center;">Đang tải...</td></tr>`;
             const data = await fetchAPI("/api/payments");
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Không có lịch sử thanh toán</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color: var(--text-muted);">Chưa có lịch sử thanh toán</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = data.map(p => `
-                <tr>
-                    <td>#${p.id}</td>
-                    <td>#${p.booking ? p.booking.id : 'N/A'}</td>
-                    <td><strong>${formatCurrency(p.amount)}</strong></td>
-                    <td>${p.paymentMethod || ''}</td>
-                    <td>${p.paymentDate || ''}</td>
-                    <td><span class="badge ${p.paymentStatus === 'Đã thanh toán' ? 'badge-success' : 'badge-warning'}">${p.paymentStatus || 'Chưa rõ'}</span></td>
-                    <td>
-                        <button class="btn-edit" onclick="openEditPaymentModal(${p.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deletePayment(${p.id})">🗑️ Xóa</button>
-                    </td>
-                </tr>
-            `).join("");
-        }
+            tbody.innerHTML = data.map(p => {
+                const bookingIdStr = p.booking ? formatBookingId(p.booking.id) : 'N/A';
+                const customerStr = (p.booking && p.booking.customer) ? p.booking.customer.fullName : 'N/A';
+                const statusBadge = p.paymentStatus === 'PAID' ? '<span class="badge badge-success">Đã thanh toán</span>' : '<span class="badge badge-warning">Chưa thanh toán</span>';
 
-        async function loadBookingOptions(selectId, selectedId = null) {
-            const select = document.getElementById(selectId);
-            const data = await fetchAPI("/api/bookings");
-            if (data && data.length > 0) {
-                select.innerHTML = `<option value="">-- Chọn Đơn Đặt Phòng --</option>` + data.map(b => `
-                    <option value="${b.id}" ${selectedId == b.id ? 'selected' : ''}>Đơn #${b.id} - ${b.customer ? b.customer.fullName : 'Khách vắng'}</option>
-                `).join("");
-            } else {
-                select.innerHTML = `<option value="">-- Không có đơn đặt phòng --</option>`;
-            }
+                return `
+                    <tr>
+                        <td>#${p.id}</td>
+                        <td><strong>${bookingIdStr}</strong></td>
+                        <td>${customerStr}</td>
+                        <td><strong>${formatCurrency(p.amount)}</strong></td>
+                        <td>${p.paymentMethod || ''}</td>
+                        <td>${p.paymentDate || ''}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="openEditPaymentModal(${p.id})">✏️ Sửa</button>
+                            <button class="btn-action btn-delete" onclick="deletePayment(${p.id})">🗑️ Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
         }
 
         async function openAddPaymentModal() {
             document.getElementById("paymentForm").reset();
             document.getElementById("paymentId").value = "";
-            document.getElementById("paymentModalTitle").innerText = "Thêm Thanh Toán Mới";
+            document.getElementById("paymentModalTitle").innerText = "Thêm Giao Dịch Thanh Toán";
+            document.getElementById("paymentDate").value = new Date().toISOString().split('T')[0];
             await loadBookingOptions("paymentBookingId");
             openModal("paymentModal");
         }
 
         async function openEditPaymentModal(id) {
             const p = await fetchAPI(`/api/payments/${id}`);
-            if (!p) {
-                showToast("Không thể tải thông tin thanh toán!", true);
-                return;
-            }
+            if (!p) return;
             document.getElementById("paymentId").value = p.id;
             document.getElementById("paymentAmount").value = p.amount;
             document.getElementById("paymentMethod").value = p.paymentMethod;
             document.getElementById("paymentDate").value = p.paymentDate || "";
-            document.getElementById("paymentStatus").value = p.paymentStatus;
-            document.getElementById("paymentModalTitle").innerText = `Sửa Giao Dịch Thanh Toán (ID: #${p.id})`;
-
+            document.getElementById("paymentStatus").value = p.paymentStatus || "PAID";
             await loadBookingOptions("paymentBookingId", p.booking ? p.booking.id : null);
+            document.getElementById("paymentModalTitle").innerText = `Sửa Thanh Toán #${p.id}`;
             openModal("paymentModal");
         }
 
@@ -1635,33 +1996,185 @@
             });
 
             if (res) {
-                showToast(id ? "Cập nhật thanh toán thành công!" : "Tạo thanh toán mới thành công!");
+                showToast(id ? "Cập nhật thanh toán thành công!" : "Tạo thanh toán thành công!");
                 closeModal("paymentModal");
                 loadPayments();
-            } else {
-                showToast("Lỗi khi lưu thanh toán!", true);
-            }
+            } else { showToast("Lỗi khi lưu giao dịch!", true); }
         }
 
         async function deletePayment(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa giao dịch thanh toán ID #${id}?`)) return;
+            if (!confirm(`Xóa giao dịch thanh toán ID #${id}?`)) return;
             const res = await fetchAPI(`/api/payments/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa giao dịch thanh toán thành công!");
-                loadPayments();
-            } else {
-                showToast("Không thể xóa giao dịch thanh toán!", true);
-            }
+            if (res !== null) { showToast("Đã xóa giao dịch thanh toán!"); loadPayments(); }
+            else { showToast("Không thể xóa giao dịch thanh toán!", true); }
         }
 
-        // ================= 7. QUẢN LÝ NGƯỜI DÙNG (/api/users) =================
+        // ================= 8. HÓA ĐƠN & TÍNH TIỀN (INVOICE MODAL) =================
+        async function openInvoiceModal(bookingId) {
+            openModal("invoiceModal");
+            const body = document.getElementById("invoiceBody");
+            body.innerHTML = `<div style="text-align:center; padding: 2rem;">⏳ Đang tính toán hóa đơn chi tiết...</div>`;
+
+            const b = await fetchAPI(`/api/bookings/${bookingId}`);
+            if (!b) {
+                body.innerHTML = `<div style="color:var(--accent-rose);">Lỗi khi nạp dữ liệu đơn đặt phòng!</div>`;
+                return;
+            }
+
+            activeInvoiceBooking = b;
+
+            const allBS = await fetchAPI("/api/booking-services");
+            const servicesForBooking = (allBS || []).filter(item => item.booking && item.booking.id === b.id);
+
+            let days = 1;
+            if (b.checkInDate && b.checkOutDate) {
+                const d1 = new Date(b.checkInDate);
+                const d2 = new Date(b.checkOutDate);
+                const diffTime = Math.abs(d2 - d1);
+                days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+            }
+
+            let roomPricePerNight = (b.room && b.room.roomType) ? b.room.roomType.price : 300000;
+            let roomTotal = roomPricePerNight * days;
+
+            let servicesTotal = 0;
+            let servicesRowsHTML = "";
+
+            if (servicesForBooking.length > 0) {
+                servicesRowsHTML = servicesForBooking.map(s => {
+                    const itemPrice = s.hotelService ? s.hotelService.price : 0;
+                    const itemSum = itemPrice * (s.quantity || 1);
+                    servicesTotal += itemSum;
+                    return `
+                        <div class="invoice-row">
+                            <span>🛎️ ${s.hotelService ? s.hotelService.serviceName : 'Dịch vụ'} (x${s.quantity})</span>
+                            <span>${formatCurrency(itemSum)}</span>
+                        </div>
+                    `;
+                }).join("");
+            } else {
+                servicesRowsHTML = `<div class="invoice-row" style="color:var(--text-muted);"><span>🛎️ Không sử dụng dịch vụ đi kèm</span><span>0 VNĐ</span></div>`;
+            }
+
+            const grandTotal = roomTotal + servicesTotal;
+            activeInvoiceBooking.calculatedTotal = grandTotal;
+
+            body.innerHTML = `
+                <div class="invoice-box">
+                    <div style="font-weight:700; font-size:1.1rem; margin-bottom:12px; border-bottom:1px solid var(--card-border); padding-bottom:8px;">
+                        📌 Đơn Đặt Phòng ${formatBookingId(b.id)}
+                    </div>
+                    <div class="invoice-row">
+                        <span>👤 Khách hàng:</span>
+                        <strong>${b.customer ? b.customer.fullName : 'Chưa gán'} (${b.customer ? b.customer.phone : ''})</strong>
+                    </div>
+                    <div class="invoice-row">
+                        <span>🏨 Phòng:</span>
+                        <strong>${b.room ? formatRoomNumber(b.room.roomNumber) + ' (' + (b.room.roomType ? b.room.roomType.typeName : 'Phòng') + ')' : 'Chưa gán'}</strong>
+                    </div>
+                    <div class="invoice-row">
+                        <span>📅 Thời gian ở:</span>
+                        <span>${b.checkInDate} ➔ ${b.checkOutDate} (${days} đêm)</span>
+                    </div>
+
+                    <div style="margin-top:14px; font-weight:600; color:var(--accent-amber);">1. Tiền Phòng:</div>
+                    <div class="invoice-row">
+                        <span>${formatCurrency(roomPricePerNight)} x ${days} đêm</span>
+                        <strong>${formatCurrency(roomTotal)}</strong>
+                    </div>
+
+                    <div style="margin-top:14px; font-weight:600; color:var(--accent-purple);">2. Tiền Dịch Vụ Đi Kèm:</div>
+                    ${servicesRowsHTML}
+
+                    <div class="invoice-total">
+                        <span>TỔNG TIỀN THANH TOÁN:</span>
+                        <span>${formatCurrency(grandTotal)}</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Phương Thức Thanh Toán</label>
+                    <select id="invoicePaymentMethod" class="form-control">
+                        <option value="CASH">💵 Tiền mặt (CASH)</option>
+                        <option value="BANKING">🏦 Chuyển khoản (BANKING)</option>
+                        <option value="CARD">💳 Quẹt thẻ (CARD)</option>
+                    </select>
+                </div>
+            `;
+        }
+
+        async function confirmCheckoutPayment() {
+            if (!activeInvoiceBooking) return;
+            const b = activeInvoiceBooking;
+            const paymentMethod = document.getElementById("invoicePaymentMethod").value;
+            const amount = b.calculatedTotal || 500000;
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            const allPayments = await fetchAPI("/api/payments");
+            const existingPayment = (allPayments || []).find(p => p.booking && p.booking.id === b.id);
+
+            const paymentPayload = {
+                booking: { id: b.id },
+                amount: amount,
+                paymentMethod: paymentMethod,
+                paymentDate: todayStr,
+                paymentStatus: "PAID"
+            };
+
+            let payRes = null;
+            if (existingPayment) {
+                payRes = await fetchAPI(`/api/payments/${existingPayment.id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(paymentPayload)
+                });
+            } else {
+                payRes = await fetchAPI("/api/payments", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(paymentPayload)
+                });
+            }
+
+            b.status = "CHECKED_OUT";
+            await fetchAPI(`/api/bookings/${b.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    customer: b.customer ? { id: b.customer.id } : null,
+                    room: b.room ? { id: b.room.id } : null,
+                    checkInDate: b.checkInDate,
+                    checkOutDate: b.checkOutDate,
+                    numberOfGuests: b.numberOfGuests,
+                    status: "CHECKED_OUT"
+                })
+            });
+
+            if (b.room && b.room.id) {
+                const room = await fetchAPI(`/api/phong/${b.room.id}`);
+                if (room) {
+                    room.status = "AVAILABLE";
+                    await fetchAPI(`/api/phong/${b.room.id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(room)
+                    });
+                }
+            }
+
+            showToast(`Thanh toán thành công đơn ${formatBookingId(b.id)}! Tự động cập nhật Doanh Thu & Trạng thái phòng.`);
+            closeModal("invoiceModal");
+            loadBookings();
+        }
+
+        // ================= 9. QUẢN LÝ TÀI KHOẢN (CHỈ ADMIN) =================
         async function loadUsers() {
             const tbody = document.getElementById("users-tbody");
             tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Đang tải...</td></tr>`;
             const data = await fetchAPI("/api/users");
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Không có tài khoản nào</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Chưa có tài khoản nào</td></tr>`;
                 return;
             }
 
@@ -1670,10 +2183,10 @@
                     <td>${u.id}</td>
                     <td><strong>${u.username}</strong></td>
                     <td>${u.fullName}</td>
-                    <td><span class="badge ${u.role === 'ADMIN' ? 'badge-danger' : u.role === 'MANAGER' ? 'badge-warning' : 'badge-info'}">${u.role}</span></td>
+                    <td><span class="badge ${u.role === 'ADMIN' ? 'badge-danger' : 'badge-info'}">${u.role}</span></td>
                     <td>
-                        <button class="btn-edit" onclick="openEditUserModal(${u.id})">✏️ Sửa</button>
-                        <button class="btn-delete" onclick="deleteUser(${u.id})">🗑️ Xóa</button>
+                        <button class="btn-action btn-edit" onclick="openEditUserModal(${u.id})">✏️ Sửa</button>
+                        <button class="btn-action btn-delete" onclick="deleteUser(${u.id})">🗑️ Xóa</button>
                     </td>
                 </tr>
             `).join("");
@@ -1682,22 +2195,19 @@
         function openAddUserModal() {
             document.getElementById("userForm").reset();
             document.getElementById("userId").value = "";
-            document.getElementById("userModalTitle").innerText = "Thêm Tài Khoản Mới";
+            document.getElementById("userModalTitle").innerText = "Thêm Tài Khoản Lễ Tân / Admin Mới";
             openModal("userModal");
         }
 
         async function openEditUserModal(id) {
             const u = await fetchAPI(`/api/users/${id}`);
-            if (!u) {
-                showToast("Không thể tải tài khoản!", true);
-                return;
-            }
+            if (!u) return;
             document.getElementById("userId").value = u.id;
             document.getElementById("username").value = u.username;
             document.getElementById("userPassword").value = u.password || "";
             document.getElementById("userFullName").value = u.fullName;
-            document.getElementById("userRole").value = u.role;
-            document.getElementById("userModalTitle").innerText = `Sửa Tài Khoản (ID: ${u.id})`;
+            document.getElementById("userRole").value = u.role || "RECEPTIONIST";
+            document.getElementById("userModalTitle").innerText = `Sửa Tài Khoản: ${u.username}`;
             openModal("userModal");
         }
 
@@ -1720,29 +2230,169 @@
             });
 
             if (res) {
-                showToast(id ? "Cập nhật tài khoản thành công!" : "Thêm tài khoản mới thành công!");
+                showToast(id ? "Cập nhật tài khoản thành công!" : "Tạo tài khoản mới thành công!");
                 closeModal("userModal");
                 loadUsers();
-            } else {
-                showToast("Lỗi khi lưu tài khoản!", true);
-            }
+            } else { showToast("Lỗi khi lưu tài khoản!", true); }
         }
 
         async function deleteUser(id) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa tài khoản ID ${id}?`)) return;
+            if (!confirm(`Xóa tài khoản ID ${id}?`)) return;
             const res = await fetchAPI(`/api/users/${id}`, { method: "DELETE" });
-            if (res !== null) {
-                showToast("Đã xóa tài khoản thành công!");
-                loadUsers();
+            if (res !== null) { showToast("Đã xóa tài khoản!"); loadUsers(); }
+            else { showToast("Không thể xóa tài khoản!", true); }
+        }
+
+        // ================= 10. BÁO CÁO DOANH THU THỐNG KÊ THEO NGÀY (CHỈ ADMIN) =================
+        async function loadRevenueReport() {
+            const tbodyDaily = document.getElementById("daily-revenue-tbody");
+            const tbodyAll = document.getElementById("revenue-tbody");
+
+            tbodyDaily.innerHTML = `<tr><td colspan="7" style="text-align: center;">⏳ Đang tính toán số liệu doanh thu theo ngày...</td></tr>`;
+            tbodyAll.innerHTML = `<tr><td colspan="8" style="text-align: center;">⏳ Đang nạp danh sách giao dịch...</td></tr>`;
+
+            allPaymentsData = await fetchAPI("/api/payments") || [];
+            renderRevenueView(allPaymentsData);
+        }
+
+        function renderRevenueView(payments) {
+            const tbodyDaily = document.getElementById("daily-revenue-tbody");
+            const tbodyAll = document.getElementById("revenue-tbody");
+
+            const paidPayments = payments.filter(p => p.paymentStatus === 'PAID');
+
+            let totalRevenue = 0;
+            let todayRevenue = 0;
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            const dailyMap = {};
+
+            paidPayments.forEach(p => {
+                const amt = p.amount || 0;
+                totalRevenue += amt;
+
+                const dateKey = p.paymentDate || 'Không rõ ngày';
+                if (dateKey === todayStr) {
+                    todayRevenue += amt;
+                }
+
+                if (!dailyMap[dateKey]) {
+                    dailyMap[dateKey] = {
+                        date: dateKey,
+                        count: 0,
+                        cash: 0,
+                        banking: 0,
+                        card: 0,
+                        total: 0,
+                        customers: []
+                    };
+                }
+
+                dailyMap[dateKey].count += 1;
+                dailyMap[dateKey].total += amt;
+
+                const method = p.paymentMethod || 'CASH';
+                if (method === 'CASH') dailyMap[dateKey].cash += amt;
+                else if (method === 'BANKING') dailyMap[dateKey].banking += amt;
+                else if (method === 'CARD') dailyMap[dateKey].card += amt;
+                else dailyMap[dateKey].cash += amt;
+
+                let custInfo = 'Khách vắng';
+                if (p.booking && p.booking.customer) {
+                    custInfo = p.booking.customer.fullName;
+                }
+                let roomInfo = '';
+                if (p.booking && p.booking.room) {
+                    roomInfo = ` (${formatRoomNumber(p.booking.room.roomNumber)})`;
+                }
+                dailyMap[dateKey].customers.push(`${custInfo}${roomInfo}`);
+            });
+
+            document.getElementById("statTotalRevenue").innerText = formatCurrency(totalRevenue);
+            document.getElementById("statTodayRevenue").innerText = formatCurrency(todayRevenue);
+            document.getElementById("statPaidCount").innerText = paidPayments.length + " đơn";
+
+            let peakDate = 'Chưa có';
+            let maxAmount = 0;
+            Object.values(dailyMap).forEach(day => {
+                if (day.total > maxAmount) {
+                    maxAmount = day.total;
+                    peakDate = `${day.date} (${formatCurrency(day.total)})`;
+                }
+            });
+            document.getElementById("statPeakDay").innerText = peakDate;
+
+            const sortedDays = Object.values(dailyMap).sort((a, b) => b.date.localeCompare(a.date));
+
+            if (sortedDays.length === 0) {
+                tbodyDaily.innerHTML = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted);">Không tìm thấy dữ liệu doanh thu trong khoảng thời gian này</td></tr>`;
             } else {
-                showToast("Không thể xóa tài khoản!", true);
+                tbodyDaily.innerHTML = sortedDays.map(day => `
+                    <tr>
+                        <td><strong>📅 ${day.date}</strong></td>
+                        <td><span class="badge badge-purple">${day.count} đơn</span></td>
+                        <td>${formatCurrency(day.cash)}</td>
+                        <td>${formatCurrency(day.banking)}</td>
+                        <td>${formatCurrency(day.card)}</td>
+                        <td><strong style="color: var(--accent-green); font-size: 1.05rem;">${formatCurrency(day.total)}</strong></td>
+                        <td><span style="font-size:0.85rem; color: var(--text-muted);">${day.customers.join(", ")}</span></td>
+                    </tr>
+                `).join("");
+            }
+
+            if (payments.length === 0) {
+                tbodyAll.innerHTML = `<tr><td colspan="8" style="text-align:center; color: var(--text-muted);">Chưa có giao dịch thanh toán nào</td></tr>`;
+            } else {
+                tbodyAll.innerHTML = payments.map(p => {
+                    const bookingIdStr = p.booking ? formatBookingId(p.booking.id) : 'N/A';
+                    const customerStr = (p.booking && p.booking.customer) ? p.booking.customer.fullName : 'N/A';
+                    const roomStr = (p.booking && p.booking.room) ? formatRoomNumber(p.booking.room.roomNumber) : 'N/A';
+                    const statusBadge = p.paymentStatus === 'PAID' ? '<span class="badge badge-success">Đã thu tiền</span>' : '<span class="badge badge-warning">Chưa thu tiền</span>';
+
+                    return `
+                        <tr>
+                            <td>#${p.id}</td>
+                            <td><strong>${bookingIdStr}</strong></td>
+                            <td>${customerStr}</td>
+                            <td><span class="badge badge-purple">${roomStr}</span></td>
+                            <td><strong>${formatCurrency(p.amount)}</strong></td>
+                            <td>${p.paymentMethod || 'Tiền mặt'}</td>
+                            <td>${p.paymentDate || ''}</td>
+                            <td>${statusBadge}</td>
+                        </tr>
+                    `;
+                }).join("");
             }
         }
 
-        // Tự động load dữ liệu tab đầu tiên khi khởi chạy
-        window.addEventListener('DOMContentLoaded', () => {
-            loadRooms();
-        });
+        function filterRevenueByDate() {
+            const startDate = document.getElementById("revenueStartDate").value;
+            const endDate = document.getElementById("revenueEndDate").value;
+
+            let filtered = allPaymentsData;
+
+            if (startDate) {
+                filtered = filtered.filter(p => p.paymentDate >= startDate);
+            }
+            if (endDate) {
+                filtered = filtered.filter(p => p.paymentDate <= endDate);
+            }
+
+            renderRevenueView(filtered);
+        }
+
+        function resetRevenueFilter() {
+            document.getElementById("revenueStartDate").value = "";
+            document.getElementById("revenueEndDate").value = "";
+            renderRevenueView(allPaymentsData);
+        }
+
+        function filterRevenueToday() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById("revenueStartDate").value = todayStr;
+            document.getElementById("revenueEndDate").value = todayStr;
+            filterRevenueByDate();
+        }
     </script>
 </body>
 </html>

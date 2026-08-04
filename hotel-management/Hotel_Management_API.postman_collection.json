@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "hotel-management-api-collection",
+		"name": "Hotel Management System API",
+		"description": "Bộ sưu tập Postman đầy đủ tất cả REST API của hệ thống Quản Lý Khách Sạn (Auth, Phong, Loai Phong, Khach Hang, Dat Phong, Dich Vu, Chi Tiet Dich Vu, Thanh Toan, Nguoi Dung)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authentication & Users",
+			"item": [
+				{
+					"name": "Đăng nhập (Login)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "login"]
+						}
+					}
+				},
+				{
+					"name": "Lấy danh sách tài khoản",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Lấy chi tiết tài khoản theo ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Thêm tài khoản mới",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"letan01\",\n  \"password\": \"123456\",\n  \"fullName\": \"Nguyễn Văn Lễ Tân\",\n  \"role\": \"RECEPTIONIST\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Cập nhật tài khoản",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"letan01\",\n  \"password\": \"654321\",\n  \"fullName\": \"Nguyễn Văn Lễ Tân (Updated)\",\n  \"role\": \"RECEPTIONIST\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/2",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "2"]
+						}
+					}
+				},
+				{
+					"name": "Xóa tài khoản",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/5",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "5"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Quản Lý Phòng (/api/phong)",
+			"item": [
+				{
+					"name": "Lấy danh sách tất cả phòng",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phong",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "phong"]
+						}
+					}
+				},
+				{
+					"name": "Lấy chi tiết phòng theo ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phong/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "phong", "1"]
+						}
+					}
+				},
+				{
+					"name": "Thêm phòng mới",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roomNumber\": \"501\",\n  \"floor\": \"5\",\n  \"status\": \"AVAILABLE\",\n  \"roomType\": {\n    \"id\": 1\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phong",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "phong"]
+						}
+					}
+				},
+				{
+					"name": "Cập nhật thông tin phòng",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roomNumber\": \"501\",\n  \"floor\": \"5\",\n  \"status\": \"OCCUPIED\",\n  \"roomType\": {\n    \"id\": 1\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phong/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "phong", "1"]
+						}
+					}
+				},
+				{
+					"name": "Xóa phòng",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phong/20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "phong", "20"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Quản Lý Loại Phòng (/api/room-types)",
+			"item": [
+				{
+					"name": "Lấy danh sách loại phòng",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/room-types",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "room-types"]
+						}
+					}
+				},
+				{
+					"name": "Thêm loại phòng mới",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"typeName\": \"Phòng Penthouse\",\n  \"price\": 3500000,\n  \"capacity\": 8,\n  \"description\": \"Phòng xa hoa tầng thượng view 360 độ\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/room-types",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "room-types"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Quản Lý Khách Hàng (/api/customers)",
+			"item": [
+				{
+					"name": "Lấy danh sách khách hàng",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/customers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers"]
+						}
+					}
+				},
+				{
+					"name": "Thêm khách hàng mới",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fullName\": \"Phạm Minh Triết\",\n  \"email\": \"triet.pham@gmail.com\",\n  \"phone\": \"0912345678\",\n  \"identityNumber\": \"001099998877\",\n  \"address\": \"Hồ Chí Minh\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/customers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "customers"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Quản Lý Đặt Phòng (/api/bookings)",
+			"item": [
+				{
+					"name": "Lấy danh sách đặt phòng (có đầy đủ Khách Hàng & Phòng)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings"]
+						}
+					}
+				},
+				{
+					"name": "Lấy đơn đặt phòng theo ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings", "1"]
+						}
+					}
+				},
+				{
+					"name": "Tạo đơn đặt phòng mới",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": {\n    \"id\": 1\n  },\n  \"room\": {\n    \"id\": 1\n  },\n  \"checkInDate\": \"2026-08-10\",\n  \"checkOutDate\": \"2026-08-12\",\n  \"numberOfGuests\": 2,\n  \"status\": \"CONFIRMED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings"]
+						}
+					}
+				},
+				{
+					"name": "Cập nhật đơn đặt phòng",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": {\n    \"id\": 1\n  },\n  \"room\": {\n    \"id\": 1\n  },\n  \"checkInDate\": \"2026-08-10\",\n  \"checkOutDate\": \"2026-08-12\",\n  \"numberOfGuests\": 2,\n  \"status\": \"CHECKED_IN\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "bookings", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Chi Tiết Dịch Vụ Đặt Phòng (/api/booking-services)",
+			"item": [
+				{
+					"name": "Lấy danh sách dịch vụ gán cho đơn",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/booking-services",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "booking-services"]
+						}
+					}
+				},
+				{
+					"name": "Gán dịch vụ vào đơn đặt phòng",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"booking\": {\n    \"id\": 1\n  },\n  \"hotelService\": {\n    \"id\": 2\n  },\n  \"quantity\": 3\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/booking-services",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "booking-services"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Quản Lý Thanh Toán (/api/payments)",
+			"item": [
+				{
+					"name": "Lấy danh sách giao dịch thanh toán",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/payments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "payments"]
+						}
+					}
+				},
+				{
+					"name": "Tạo giao dịch thanh toán mới",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"booking\": {\n    \"id\": 1\n  },\n  \"amount\": 1350000,\n  \"paymentMethod\": \"BANKING\",\n  \"paymentDate\": \"2026-08-04\",\n  \"paymentStatus\": \"PAID\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/payments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "payments"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

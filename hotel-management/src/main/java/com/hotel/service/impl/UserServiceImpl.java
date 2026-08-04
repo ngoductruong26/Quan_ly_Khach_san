@@ -17,6 +17,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User login(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Tên đăng nhập hoặc mật khẩu không chính xác"));
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Tên đăng nhập hoặc mật khẩu không chính xác");
+        }
+        return user;
+    }
+
+    @Override
     public List<User> getAll() {
         return userRepository.findAll();
     }

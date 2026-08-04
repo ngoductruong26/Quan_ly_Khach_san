@@ -1,45 +1,45 @@
 package com.hotel.controller;
 
-import com.hotel.entity.Booking;
-import com.hotel.service.BookingService;
+import com.hotel.entity.BookingDetail;
+import com.hotel.service.BookingDetailService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/bookings-details")
+@RequestMapping("/api/booking-services")
 @CrossOrigin(origins = "*")
 public class BookingDetailController {
 
-    private final BookingService bookingService;
+    private final BookingDetailService bookingDetailService;
 
-    public BookingDetailController(BookingService bookingService) {
-        this.bookingService = bookingService;
+    public BookingDetailController(BookingDetailService bookingDetailService) {
+        this.bookingDetailService = bookingDetailService;
     }
 
     @GetMapping
-    public List<Booking> getAll() {
-        return bookingService.getAll();
+    public List<BookingDetail> getAll() {
+        return bookingDetailService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Booking getById(@PathVariable Long id) {
-        return bookingService.getById(id);
+    public BookingDetail getById(@PathVariable Long id) {
+        return bookingDetailService.getById(id);
     }
 
     @PostMapping
-    public Booking create(@RequestBody Booking booking) {
-        return bookingService.save(booking);
+    public BookingDetail create(@RequestBody BookingDetail bookingDetail) {
+        return bookingDetailService.save(bookingDetail);
     }
 
     @PutMapping("/{id}")
-    public Booking update(@PathVariable Long id,
-                          @RequestBody Booking booking) {
-        return bookingService.update(id, booking);
+    public BookingDetail update(@PathVariable Long id,
+                                @RequestBody BookingDetail bookingDetail) {
+        return bookingDetailService.update(id, bookingDetail);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        bookingService.delete(id);
+        bookingDetailService.delete(id);
     }
 }

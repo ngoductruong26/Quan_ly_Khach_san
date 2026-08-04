@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "bookings")
@@ -25,12 +24,12 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
+    @JsonIgnoreProperties("bookings")
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
-    @JsonBackReference
+    @JsonIgnoreProperties("bookings")
     private Room room;
 
     @OneToMany(mappedBy = "booking")
